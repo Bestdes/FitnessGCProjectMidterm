@@ -6,7 +6,13 @@ namespace FitnessGCProjectMid
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Welcome. Please select an option:");
+            Console.WriteLine($"1. Check in to a club");
+            Console.WriteLine($"2. Add member");
+            Console.WriteLine($"3. Remove member");
+            Console.WriteLine($"4. Display member information");
+            int input = int.Parse(Console.ReadLine().Trim());
+
         }
     }
 }

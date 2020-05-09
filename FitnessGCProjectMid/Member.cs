@@ -13,6 +13,7 @@ namespace FitnessGCProjectMid
             this.Id = id;
             this.Name = name;
         }
+        public Member() { }
 
         public abstract void CheckIn(Club club);
         

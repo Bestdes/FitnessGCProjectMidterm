@@ -8,7 +8,7 @@ namespace FitnessGCProjectMid
     class MultiClubMember : Member
     {
         public int MemPts {  get; set;  }
-        public MultiClubMember(int id, string name, int memPts) : base(id, name)
+        public MultiClubMember(int id, string firstName, string lastName, int memPts) : base(id, firstName, lastName)
         {
             this.MemPts = memPts;
         }

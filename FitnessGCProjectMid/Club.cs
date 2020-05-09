@@ -19,7 +19,24 @@ namespace FitnessGCProjectMid
             ListOfMembers = memberList;
         }
 
+<<<<<<< HEAD
         public Club(string name, string address)
+=======
+        public Club()
+        {
+
+        }
+
+        public void DisplayClubs(List<Club> clubList)
+        {
+            for (int i = 0; i < clubList.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {clubList[i].Name}, {clubList[i].Address}");
+            }
+        }
+
+        public void AddMemberToClub(Member member)
+>>>>>>> 767cf975712532753e852120625404f2ed84b540
         {
             Name = name;
             Address = address;
@@ -51,20 +68,35 @@ namespace FitnessGCProjectMid
         {
             ListOfMembers.Add(newMember);
         }
-        public void RemoveMemberFromClub(Member member)
+        public void RemoveMemberFromClub(Member member, Club club)
         {
             Console.WriteLine("\nPlease input your ID number: ");
             string input = ReadAndReturnInput();
+<<<<<<< HEAD
             int num = 0;
             bool isANum = int.TryParse(input, out num);
 
             foreach(Member searchingForMember in ListOfMembers.ToArray())
             {
                 if (searchingForMember.Id == num)
+=======
+            try
+            {
+                bool result = int.TryParse(input, out int num);
+                foreach(Member member in ListOfMembers.ToArray())
+>>>>>>> 767cf975712532753e852120625404f2ed84b540
                 {
-                    ListOfMembers.Remove(member);
+                    if  (member.ID == num)
+                    {
+                        ListOfMembers.Remove(member);
+                    }
                 }
             }
+            catch (Exception)
+            {
+                Console.WriteLine("I'm sorry, that is not a valid ID number. Please try again.");
+            }
+
         }
 
         /*public void MemberCheckIn(Member member)

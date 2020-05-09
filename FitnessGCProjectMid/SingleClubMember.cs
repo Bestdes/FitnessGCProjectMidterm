@@ -7,7 +7,7 @@ namespace FitnessGCProjectMid
     class SingleClubMember : Member
     {
         public Club ClubAssign { get; set; }
-        public SingleClubMember(int id, string name, Club clubAssign) : base(id, name)
+        public SingleClubMember(int id, string firstName, string lastName, Club clubAssign) : base(id, firstName, lastName)
         {
             this.ClubAssign = clubAssign;
         }

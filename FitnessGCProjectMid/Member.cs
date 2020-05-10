@@ -47,6 +47,7 @@ namespace FitnessGCProjectMid
         // Returns the Member if found.  Returns a null if no member is found
         // ATTENTION this method should not return null and instead loop through until a member is found !!!!!!!!!!!!!!!!!1!!!!!
         // and after a certain amount of attempts the employee should be prompted to add the member to the active club
+        //ATTENTION this method need work specifically the Namesearch Aspect!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public static Member NameSearch(string fnameSearch, string lnameSearch, List<Member> scMemberList, List<Member> mcMemberList)
         {
             int foundIt = -1;
@@ -81,6 +82,7 @@ namespace FitnessGCProjectMid
 
 
         // This method finds a member by their first and last name and returns the Member
+        //ATTENTION this method need work specifically the Namesearch Aspect!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public static Member PromptFindMemberByFirstAndLast()
         {
             Console.WriteLine("Please enter member's first name");
@@ -89,7 +91,7 @@ namespace FitnessGCProjectMid
             string lName = Console.ReadLine();
             try
             {
-                return NameSearch(fName, lName);
+                return NameSearch(fName, lName, ListOfClubs.Instance.ClubList[1].ListOfMembers, ListOfClubs.Instance.ClubList[1].ListOfMembers);
             }
             catch
             {

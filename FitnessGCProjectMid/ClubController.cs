@@ -15,6 +15,11 @@ namespace FitnessGCProjectMid
             ActiveClub = activeClub;
         }
 
+        public ClubController()
+        {
+
+        }
+
         public void ChangeActiveCub()
         {
 

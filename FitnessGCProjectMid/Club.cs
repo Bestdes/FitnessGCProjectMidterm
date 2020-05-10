@@ -36,24 +36,57 @@ namespace FitnessGCProjectMid
         //------------------------------------------------------------------------------------------------
         // The code below represents the Method(s) for the class: Club
 
+        // This method displays member info
+        public void DisplayMemberInfo(Member member)
+        {
+            Console.WriteLine($"Member name: {member.FirstName} {member.LastName}");
+            Console.WriteLine($"Member ID: {member.ID}");
+            if (member is MultiClubMember multimem)
+            {
+                Console.WriteLine($"Membership Points: {multimem.MemPts}");
+            }
+            else if (member is SingleClubMember singlemem)
+            {
+                Console.WriteLine($"Club Assignment: {singlemem.ClubAssign}");
+            }
+        }
 
         // This method below is the primary Add Member logic that will be used by the User Interface Logic (switch statement)
         public void AddMemberToClub()
         {
-            Console.WriteLine("What is the member name?");
+            int i = 0;
+            Console.WriteLine("What is the member's first name?");
             string newName = Console.ReadLine().Trim();
+            Console.WriteLine("What is the member's last name?");
+            string newLastName = Console.ReadLine().Trim();
             Console.WriteLine("What is the member ID?");
             int newId = int.Parse(Console.ReadLine().Trim());
             Console.WriteLine("Which club would you like to be a member of?");
-            foreach (Club c in ListOfClubs.Instance.ClubList)
+            foreach (Club c in ListOfClubs.Instance.ClubList) //listing clubs for user to choose
             {
-                Console.WriteLine(c);
+                i++;
+                Console.WriteLine($"{i}. {c.Name}");
             }
-            Member newMember = new MultiClubMember(newId, newName, 0);
+            Console.WriteLine($"Multi-club membership"); //or choose a multiclub membership
+            string userChoice = Console.ReadLine();
+            foreach (Club c in ListOfClubs.Instance.ClubList) //adding a single club member 
+            {
+                if (userChoice == c.Name) //right now just choosing by string club name, may be better to choose by int index (i)
+                {
+                    Member newSingleMember = new SingleClubMember(newId, newName, newLastName, c);
+                    ListOfMembers.Add(newSingleMember);
+                }
+            }
+            if (userChoice == "Multi-club membership") //or adding a multiclub member
+            {
+                Member newMultiMember = new MultiClubMember(newId, newName, newLastName, 0);
+                ListOfMembers.Add(newMultiMember);
+            }
             // This is where we ask the user for the input and write it to the member properties
             //For Both the name and the ID
-            ListOfMembers.Add(newMember);
         }
+
+
 
         // This method below is the primary Remove Member logic that will be used by the User Interface Logic (switch statement)
         public void RemoveMemberFromClub(Member member, Club club)

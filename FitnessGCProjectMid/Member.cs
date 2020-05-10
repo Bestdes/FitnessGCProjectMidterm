@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace FitnessGCProjectMid
 {
     abstract class Member
     {
+        //------------------------------------------------------------------------------------------------
+        // The code below represents the Propertie(s) for the class: Member
         public int ID { get; set; }
+        public string Name { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        
+
+        //------------------------------------------------------------------------------------------------
+        // The code below represents the Constructor(s) for the class: Member
+        //2 Overloaded Constructors + Default
         public Member(int id, string firstName, string lastName)
         {
             this.ID = id;
@@ -17,27 +24,31 @@ namespace FitnessGCProjectMid
             this.LastName = LastName;
         }
 
-        public static Member FindMember()
+        public Member(int id, string name)
         {
-            Console.WriteLine("Please enter member's first name");
-            string fName = Console.ReadLine();
-            Console.WriteLine("Please enter member's last name");
-            string lName = Console.ReadLine();
-            try
-            {
-                return NameSearch(fName, lName);
-            }
-            catch
-            {
-                Console.WriteLine($"{fName} {lName} could not be found in the system.");
-            }
-            return null;
+            ID = id;
+            Name = name;
         }
-        public Member() { }
 
+        public Member() 
+        {
+
+        }
+
+        //-----------------------------------------------------------------------------------------------
+        // The code below represents the Method(s) for the class: Member
+        public abstract void CheckIn(Club club);
+
+        // This method generally checks if the member is a member at current location the employee is accessing from
+        public abstract bool CheckIfIsAMemberOfActiveLocation();
+
+
+        // This methods searches for any kind of member given the first and last name of the Member. 
+        // Returns the Member if found.  Returns a null if no member is found
+        // ATTENTION this method should not return null and instead loop through until a member is found !!!!!!!!!!!!!!!!!1!!!!!
+        // and after a certain amount of attempts the employee should be prompted to add the member to the active club
         public static Member NameSearch(string fnameSearch, string lnameSearch, List<Member> scMemberList, List<Member> mcMemberList)
         {
-            // searches for any kind of member given the name of the member.  Returns the member if found.  Returns a null if not.
             int foundIt = -1;
 
             for (int i = 0; i < scMemberList.Count; i++)  // Search systen for name entered
@@ -67,7 +78,30 @@ namespace FitnessGCProjectMid
             }
             return null;
         }
-        public abstract void CheckIn(Club club);
-        
+
+
+        // This method finds a member by their first and last name and returns the Member
+        public static Member PromptFindMemberByFirstAndLast()
+        {
+            Console.WriteLine("Please enter member's first name");
+            string fName = Console.ReadLine();
+            Console.WriteLine("Please enter member's last name");
+            string lName = Console.ReadLine();
+            try
+            {
+                return NameSearch(fName, lName);
+            }
+            catch
+            {
+                Console.WriteLine($"{fName} {lName} could not be found in the system.");
+            }
+            return null;
+        }
+
+        // This convert the first and last name property to the the name property for more code flexibity
+        public void ConvertFirstAndLastToName()
+        {
+            Name = FirstName + " " + LastName;
+        }
     }
 }

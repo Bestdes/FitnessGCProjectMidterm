@@ -6,11 +6,16 @@ namespace FitnessGCProjectMid
 {
     class Club
     {
+        //------------------------------------------------------------------------------------------------
+        // The code below represents the Propertie(s) for the class: Club
         public string Name { get; set; }
 
         public string Address { get; set; }
 
         public List<Member> ListOfMembers { get; set; } = new List<Member>();
+
+        //------------------------------------------------------------------------------------------------
+        // The code below represents the Constructor(s) for the class: Club
 
         public Club(string name, string address, List<Member> memberList)
         {
@@ -19,26 +24,20 @@ namespace FitnessGCProjectMid
             ListOfMembers = memberList;
         }
 
-        public Club(string name, string address) { }
+        public Club(string name, string address)
+        {
+
+        }
         public Club()
         {
 
         }
 
-        public void DisplayClubs(List<Club> clubList)
-        {
-            for (int i = 0; i < clubList.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {clubList[i].Name}, {clubList[i].Address}");
-            }
-        }
+        //------------------------------------------------------------------------------------------------
+        // The code below represents the Method(s) for the class: Club
 
-        public void AddMemberToClub(Member member)
-        {
-            Name = name;
-            Address = address;
-        }
 
+        // This method below is the primary Add Member logic that will be used by the User Interface Logic (switch statement)
         public void AddMemberToClub()
         {
             Console.WriteLine("What is the member name?");
@@ -46,7 +45,7 @@ namespace FitnessGCProjectMid
             Console.WriteLine("What is the member ID?");
             int newId = int.Parse(Console.ReadLine().Trim());
             Console.WriteLine("Which club would you like to be a member of?");
-            foreach (Club c in ListOfClubs.Instance)
+            foreach (Club c in ListOfClubs.Instance.ClubList)
             {
                 Console.WriteLine(c);
             }
@@ -56,6 +55,7 @@ namespace FitnessGCProjectMid
             ListOfMembers.Add(newMember);
         }
 
+        // This method below is the primary Remove Member logic that will be used by the User Interface Logic (switch statement)
         public void RemoveMemberFromClub(Member member, Club club)
         {
             Console.WriteLine("\nPlease input your ID number: ");
@@ -65,15 +65,15 @@ namespace FitnessGCProjectMid
 
             foreach (Member searchingForMember in ListOfMembers.ToArray())
             {
-                if (searchingForMember.Id == num)
+                if (searchingForMember.ID == num)
                     try
                     {
                         bool result = int.TryParse(input, out int num);
-                        foreach (Member member in ListOfMembers.ToArray())
+                        foreach (Member testing in ListOfMembers.ToArray())
                         {
-                            if (member.ID == num)
+                            if (testing.ID == num)
                             {
-                                ListOfMembers.Remove(member);
+                                ListOfMembers.Remove(testing);
                             }
                         }
                     }
@@ -81,7 +81,6 @@ namespace FitnessGCProjectMid
                     {
                         Console.WriteLine("I'm sorry, that is not a valid ID number. Please try again.");
                     }
-
             }
         }
 
@@ -91,15 +90,91 @@ namespace FitnessGCProjectMid
 
         }
 
+        // This is simply a helper method that makes more simple Console.ReadLine() Method
         public static string ReadAndReturnInput()
         {
             return Console.ReadLine();
         }
 
-        /*public void AddMemberToClub(Member newMember)
+
+        // This method is a very important method that how we identify member in a Club, it takes in a Club but,
+        // we should be able to overload it if logically it makes more sense to use the entire list of clubs as the parameter
+        public Member FindMemberLoop()
+        {
+
+            int num = 0;
+            bool isANum;
+            bool runSearch = true;
+            bool isMulti = false;
+
+            Member single = new SingleClubMember();
+            Member multi = new MultiClubMember();
+
+
+            while(runSearch)
+            {
+                Console.WriteLine("Please enter member's ID:");
+                string input = ReadAndReturnInput();
+                isANum = int.TryParse(input, out num);
+
+                if (isANum == true)
+                {
+                    foreach (Member searchingForMember in ListOfMembers.ToArray()) // This represents the active Club the emplyee is accessing from
+                    {
+                        if (searchingForMember.ID == num)
+                        {
+                            if (searchingForMember.GetType().Equals(single.GetType()))
+                            {
+                                single = searchingForMember;
+                                isMulti = false;
+                                runSearch = false;
+                                return single;
+                            }
+                            else if (searchingForMember.GetType().Equals(multi.GetType()))
+                            {
+                                multi = searchingForMember;
+                                isMulti = true;
+                                return multi;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error ID Number not found at this location!");
+                            runSearch = false;
+                        }
+                    }
+                }
+                else if (!isANum)
+                {
+                    Console.WriteLine("I'm sorry, that is not a valid ID number. Please try again.");
+                }
+            }
+            return single;
+        }
+
+        // This method just adds the behaviour of a member checking in from the active Club class
+        public void MemberCheckIn(Member member)
+        {
+
+            member = FindMemberLoop();
+            try
+            {
+                member.CheckIn();
+            }
+            catch (FormatException notANum)
+            {
+                Console.WriteLine("Some type of Exception is thrown");
+            }
+            catch (OverflowException numTooBig)
+            {
+                Console.WriteLine("Some type of Exception is thrown");
+            }
+        }
+
+        // This method is a simple AddMemberToClub primarily used for testing purposes.
+        public void AddMemberToClub(Member newMember)
         {
             ListOfMembers.Add(newMember);
-        }*/
-
+        }
     }
 }

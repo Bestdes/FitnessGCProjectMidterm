@@ -24,7 +24,7 @@ namespace FitnessGCProjectMid
                     club.DisplayClubs(clubList);
                     Console.WriteLine("Enter the club you wish to check the member into:");
                     string ciClub = Console.ReadLine().Trim().ToLower();
-                    
+
                     Console.WriteLine("Enter the ID of the person you wish to check in");
                     string numID = Console.ReadLine().Trim();
                     Member.FindMember();
@@ -62,16 +62,17 @@ namespace FitnessGCProjectMid
             }
         }
 
-        /*ListOfClubs listOfClubs = new ListOfClubs();
+        /*ListOfClubs listOfClubs = ListOfClubs.Instance;
 
-            Club testingClub = new Club("Jakes Club", "First Address");
-            Member testingMember = new SingleClubMember(123, "Jon Doe", testingClub);
+        Club testingClub = new Club("Jakes Club", "First Address");
+        Member testingMember = new SingleClubMember(123, "Jon Doe", testingClub);
 
-            testingClub.AddMemberToClub(testingMember);
+        testingClub.AddMemberToClub(testingMember);
 
-            listOfClubs.AddClubToList(testingClub);
+        listOfClubs.AddClubToList(testingClub);
 
-            listOfClubs.PrintAllClubsAndMembers();*/
+        listOfClubs.PrintAllClubsAndMembers();*/
 
+    }
     }
 }

@@ -44,7 +44,7 @@ namespace FitnessGCProjectMid
                 {
                     /*club = ClubAssign;*/
                     StreamWriter writer = new StreamWriter("../../../CheckedInMembers.txt");
-                    writer.WriteLine($"{club.Name}: {Name} + 123");
+                    writer.WriteLine($"{club.Name}: {Name} + {ID}");
                     writer.Close();
                     Console.WriteLine("Success");
 

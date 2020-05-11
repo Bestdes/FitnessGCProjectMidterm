@@ -56,36 +56,51 @@ namespace FitnessGCProjectMid
         public void AddMemberToClub()
         {
             int i = 0;
-            Console.WriteLine("What is the member's first name?");
-            string newName = Console.ReadLine().Trim();
-            Console.WriteLine("What is the member's last name?");
-            string newLastName = Console.ReadLine().Trim();
-            Console.WriteLine("What is the member ID?");
-            int newId = int.Parse(Console.ReadLine().Trim());
-            Console.WriteLine("Which club would you like to be a member of?");
+            Console.WriteLine($"Which club would you like to be a member of? Please enter 1 through {ListOfClubs.Instance.ClubList.Count}");
             foreach (Club c in ListOfClubs.Instance.ClubList) //listing clubs for user to choose
             {
                 i++;
                 Console.WriteLine($"{i}. {c.Name}");
             }
-            Console.WriteLine($"Multi-club membership"); //or choose a multiclub membership
-            string userChoice = Console.ReadLine();
-            foreach (Club c in ListOfClubs.Instance.ClubList) //adding a single club member 
+            Console.WriteLine($"6. Multi-club membership"); //or choose a multiclub membership
+            i = 0;
+            string input = Console.ReadLine().Trim();
+            if (!int.TryParse(input, out int userChoice))
             {
-                if (userChoice == c.Name) //right now just choosing by string club name, may be better to choose by int index (i)
+                Console.WriteLine($"That is not a number. Please enter 1 through {ListOfClubs.Instance.ClubList.Count}");
+                AddMemberToClub();
+            }
+            else if (userChoice <= 0 || userChoice > ListOfClubs.Instance.ClubList.Count && userChoice != 6)
+            {
+                Console.WriteLine($"That is not an option. Please enter 1 through {ListOfClubs.Instance.ClubList.Count}");
+                AddMemberToClub();
+            }
+            else
+            {
+                userChoice = int.Parse(input);
+                Console.WriteLine("What is the member's first name?");
+                string newName = Console.ReadLine().Trim();
+                Console.WriteLine("What is the member's last name?");
+                string newLastName = Console.ReadLine().Trim();
+                Console.WriteLine("What is the member ID?");
+                int newId = int.Parse(Console.ReadLine().Trim());
+                foreach (Club c in ListOfClubs.Instance.ClubList) //adding a single club member 
                 {
-                    Member newSingleMember = new SingleClubMember(newId, newName, newLastName, c);
-                    ListOfMembers.Add(newSingleMember);
+                    i++;
+                    if (userChoice == i) //choosing by int index (i)
+                    {
+                        Console.WriteLine($"New Member: {newName} {newLastName} added to {c.Name} with ID: {newId}");
+                        Member newSingleMember = new SingleClubMember(newId, newName, newLastName, c);
+                        ListOfMembers.Add(newSingleMember);
+                    }
+                }
+                if (userChoice == 6) //or adding a multiclub member
+                {
+                    Console.WriteLine($"New Member: {newName} {newLastName} added as a multi-club member with ID: {newId}");
+                    Member newMultiMember = new MultiClubMember(newId, newName, newLastName, 0);
+                    ListOfMembers.Add(newMultiMember);
                 }
             }
-            if (userChoice == "Multi-club membership") //or adding a multiclub member
-            {
-                Member newMultiMember = new MultiClubMember(newId, newName, newLastName, 0);
-                ListOfMembers.Add(newMultiMember);
-            }
-            Member newMember = new MultiClubMember(newId, newName, 0);
-            // This is where we ask the user for the input and write it to the member properties
-            //For Both the name and the ID
         }
 
 
@@ -130,7 +145,14 @@ namespace FitnessGCProjectMid
 
         public void GenerateBillsAndFees()
         {
-
+            int i = 0;
+            Console.WriteLine("Which member would you like to add fees to?");
+            foreach (Member member in ListOfMembers)
+            {
+                i++;
+                Console.WriteLine($"{i}. {member.FirstName} {member.LastName}");
+                string input = Console.ReadLine();
+            }
         }
 
         // This is simply a helper method that makes more simple Console.ReadLine() Method

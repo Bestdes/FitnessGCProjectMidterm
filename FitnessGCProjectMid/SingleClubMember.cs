@@ -11,7 +11,7 @@ namespace FitnessGCProjectMid
         public Club ClubAssign { get; set; }
 
         //------------------------------------------------------------------------------------------------
-        // The code below represents the Constructor(s) for the class: MultiClubMember
+        // The code below represents the Constructor(s) for the class: SingleClubMember
         public SingleClubMember(int id, string firstName, string lastName, Club clubAssign) : base(id, firstName, lastName)
         {
             /*this.ClubAssign = clubAssign;*/

@@ -26,7 +26,8 @@ namespace FitnessGCProjectMid
 
         public Club(string name, string address)
         {
-
+            Name = name;
+            Address = address;
         }
         public Club()
         {
@@ -82,6 +83,7 @@ namespace FitnessGCProjectMid
                 Member newMultiMember = new MultiClubMember(newId, newName, newLastName, 0);
                 ListOfMembers.Add(newMultiMember);
             }
+            Member newMember = new MultiClubMember(newId, newName, 0);
             // This is where we ask the user for the input and write it to the member properties
             //For Both the name and the ID
         }
@@ -89,32 +91,39 @@ namespace FitnessGCProjectMid
 
 
         // This method below is the primary Remove Member logic that will be used by the User Interface Logic (switch statement)
-        public void RemoveMemberFromClub(Member member, Club club)
+        public void RemoveMemberFromClub(Member member)
         {
-            Console.WriteLine("\nPlease input your ID number: ");
-            string input = ReadAndReturnInput();
-            int num = 0;
-            bool isANum = int.TryParse(input, out num);
-
-            foreach (Member searchingForMember in ListOfMembers.ToArray())
+            try
             {
-                if (searchingForMember.ID == num)
-                    try
+                Console.WriteLine("\nPlease input your ID number: ");
+                string input = ReadAndReturnInput();
+                int num = 0;
+                bool isANum = int.TryParse(input, out num);
+
+                foreach (Member searchedForMember in ListOfMembers.ToArray())
+                {
+                    if (searchedForMember.ID == num)
                     {
-                        bool result = int.TryParse(input, out int num);
-                        foreach (Member testing in ListOfMembers.ToArray())
-                        {
-                            if (testing.ID == num)
-                            {
-                                ListOfMembers.Remove(testing);
-                            }
-                        }
+                        ListOfMembers.Remove(searchedForMember);
                     }
-                    catch (Exception)
+                    else
                     {
                         Console.WriteLine("I'm sorry, that is not a valid ID number. Please try again.");
                     }
+                }
             }
+            catch(OverflowException numTooBig)
+            {
+                Console.WriteLine("The number you entered is too large. Please try again! (Example ID: 1234)");
+            }
+        }
+
+        // Overloaded Remove member method
+        public void RemoveMemberFromClub()
+        {
+            Member searchedMem = FindMemberByIDLoop();
+
+            ListOfMembers.Remove(searchedMem);
         }
 
 
@@ -132,7 +141,7 @@ namespace FitnessGCProjectMid
 
         // This method is a very important method that how we identify member in a Club, it takes in a Club but,
         // we should be able to overload it if logically it makes more sense to use the entire list of clubs as the parameter
-        public Member FindMemberLoop()
+        public Member FindMemberByIDLoop()
         {
 
             int num = 0;
@@ -144,7 +153,7 @@ namespace FitnessGCProjectMid
             Member multi = new MultiClubMember();
 
 
-            while(runSearch)
+            while (runSearch)
             {
                 Console.WriteLine("Please enter member's ID:");
                 string input = ReadAndReturnInput();
@@ -186,13 +195,13 @@ namespace FitnessGCProjectMid
         }
 
         // This method just adds the behaviour of a member checking in from the active Club class
-        public void MemberCheckIn(Member member)
+        public void MemberCheckIn(Member member, Club club)
         {
 
-            member = FindMemberLoop();
+            member = FindMemberByIDLoop();
             try
             {
-                member.CheckIn();
+                member.CheckIn(ListOfClubs.Instance.GlobalFindClubOfMember(member.ID));
             }
             catch (FormatException notANum)
             {

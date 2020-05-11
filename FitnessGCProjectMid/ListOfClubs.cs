@@ -57,14 +57,14 @@ namespace FitnessGCProjectMid
             ClubList.Add(club);
         }
 
-        // This method checks in a member to 
+        // This method checks in a member to ideally the current active club
         public void MemberCheckIn(Member member)
         {
             Console.WriteLine("What is your member ID?");
             int memberID = int.Parse(Console.ReadLine().Trim());
             try
             {
-                member.CheckIn(FindClubOfMember(memberID));
+                member.CheckIn(GlobalFindClubOfMember(member.ID));
             }
             catch (FormatException notANum)
             {
@@ -76,9 +76,43 @@ namespace FitnessGCProjectMid
             }
         }
 
-        public void GlobalFindClubByName() //Will return Club
+        public Club GlobalFindClubByName(string clubName) //Will return Club
         {
+            Club foundClub = new Club();
+            foreach (Club club in ClubList)
+            {
+                if(clubName == club.Name)
+                {
+                    foundClub = club;
+                    return foundClub;
+                }
+                else
+                {
+                    Console.WriteLine("The club you searched for does not exist");
+                }
+            }
+            return foundClub;
+        }
 
+        public bool GlobalFindIfClubExists(string clubName)
+        {
+            clubName = clubName.Trim();
+            bool clubDoesExists = false;
+
+            foreach (Club club in ClubList)
+            {
+                if(club.Name == clubName)
+                {
+                    clubDoesExists = true;
+                    return clubDoesExists;
+                }
+                else
+                {
+                    clubDoesExists = false; 
+                    return clubDoesExists;
+                }
+            }
+            return clubDoesExists;
         }
 
         public void GlobalFindMember() //WIll return Member
@@ -126,6 +160,18 @@ namespace FitnessGCProjectMid
                 {
                     writer.WriteLine($"\n\t{member.Name}");
                 }
+            }
+            writer.Close();
+        }
+
+        public void PrintAllClubs()
+        {
+            StreamWriter writer = new StreamWriter("../../../Clubs.txt");
+
+            writer.WriteLine($"Clubs Include:");
+            foreach (Club club in ClubList)
+            {
+                writer.WriteLine($"\n\n\t{club.Name}");
             }
             writer.Close();
         }

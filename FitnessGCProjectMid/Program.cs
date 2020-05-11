@@ -143,7 +143,7 @@ namespace FitnessGCProjectMid
                             }
                             break;
                         case 2:
-                            clubController.ActiveClub.RemoveMemberFromClub();
+                            CancelMembership();
                             break;
                         case 3:
                             Console.WriteLine("What is the name of the club");
@@ -158,7 +158,8 @@ namespace FitnessGCProjectMid
                             }
                             break;
                         case 4:
-                            ListOfClubs.Instance.GlobalFindClubByName("").RemoveMemberFromClub();
+                            //ListOfClubs.Instance.GlobalFindClubByName("").RemoveMemberFromClub();
+                            CancelMembership();
                             break;
                         case 5:
                             runModifyStatus = false;
@@ -176,7 +177,7 @@ namespace FitnessGCProjectMid
         }
         public static void CancelMembership()
         {
-            var club = new Club("Planet Fitness","1234 Leisure Drive");
+            var club = new Club();
             var scMember = new SingleClubMember();
             var mcMember = new MultiClubMember();
             var clubController = new ClubController();
@@ -185,13 +186,12 @@ namespace FitnessGCProjectMid
             string decision = Console.ReadLine().Trim().ToLower();
             if (decision == "id")
             {
-                Console.WriteLine("Enter the ID number of the person you wish to cancel the membership for:");
-                string memberID = ReadAndReturnInput();
-                bool isAnID = int.TryParse(memberID, out int result);
-                if(isAnID)
+                bool byID = true;
+                if(byID)
                 {
-                    Console.WriteLine($"{ListOfClubs.Instance.GlobalFindClubOfMember(result).Name}");
-                    Club otherClub = ListOfClubs.Instance.GlobalFindClubOfMember(result);
+                    Member member1 = new SingleClubMember();
+                    club.RemoveMemberFromClub(member1);
+                    Console.WriteLine($"This membership has been cancelled successfully.");
                 }
                 else
                 {
@@ -200,35 +200,35 @@ namespace FitnessGCProjectMid
             }
             else if (decision == "name")
             {
-                string membersFile = "../../../members.txt";
-                Console.WriteLine("Enter the member's first name:");
-                string firstName = ReadAndReturnInput().ToLower();
-                Console.WriteLine("Enter the member's last name:");
-                string lastName = ReadAndReturnInput().ToLower();
-                string name = firstName + " " + lastName;
+                    string membersFile = "../../../members.txt";
+                    Console.WriteLine("Enter the member's first name:");
+                    string firstName = ReadAndReturnInput().ToLower();
+                    Console.WriteLine("Enter the member's last name:");
+                    string lastName = ReadAndReturnInput().ToLower();
+                    string name = firstName + " " + lastName;
 
-                Member member2 = new SingleClubMember(5, name);
+                    Member member2 = new SingleClubMember(5, name);
 
-                string[] fileLines = System.IO.File.ReadAllLines(membersFile,System.Text.Encoding.Default);
-                for (int i = 0; i < fileLines.Length; i++)
-                {
-                    if (fileLines[i].Contains(member2.Name))
+                    string[] fileLines = System.IO.File.ReadAllLines(membersFile, System.Text.Encoding.Default);
+                    for (int i = 0; i < fileLines.Length; i++)
                     {
-                        Console.WriteLine("The associated membership has been cancelled");
-                    }
-                    else
-                    {
-                        Console.WriteLine("I could not locate a member by that name.");
+                        if (fileLines[i].Contains(member2.Name))
+                        {
+                            Console.WriteLine("The associated membership has been cancelled");
+                        }
+                        else
+                        {
+                            Console.WriteLine("I could not locate a member by that name.");
+                        }
                     }
                 }
+                else
+                {
+                    Console.WriteLine("I'm sorry, I didn't recognize that decision.");
+                }
+                Console.WriteLine("");
+                Console.WriteLine();
             }
-            else
-            {
-                Console.WriteLine("I'm sorry, I didn't recognize that decision.");
-            }
-            Console.WriteLine("");
-            Console.WriteLine();
-        }
 
 
         public static string ReadAndReturnInput()

@@ -60,7 +60,7 @@ namespace FitnessGCProjectMid
                             break;
 
                         case 2:
-                            //Option to add a member to a club
+                            //Option to a member to a club
                             ModifyMemberStatus(activeEmployee);
                             break;
 
@@ -125,7 +125,6 @@ namespace FitnessGCProjectMid
 
                 if(isANum)
                 {
-
                     switch (confirmedNum)
                     {
                         case 1:
@@ -164,7 +163,6 @@ namespace FitnessGCProjectMid
                             runModifyStatus = false;
                             Console.Clear();
                             break;
-
                     }
                 }
                 else
@@ -172,6 +170,47 @@ namespace FitnessGCProjectMid
                     Console.WriteLine("The input you entered is not a valid number!\nPlease try again.");
                 }
 
+            }
+        }
+
+        public static void SearchDataBase(ClubController clubController)
+        {
+            Console.Clear();
+
+            bool runSearchDatabase = true;
+
+            while (runSearchDatabase)
+            {
+                string input = ReadAndReturnInput();
+                int confirmedNum;
+                bool isANum = int.TryParse(input, out confirmedNum);
+
+                Console.WriteLine($"What would action would you like to initiate?\n\n" +
+                        $"\tPress 5: To Display A Specific Member of Specific Club" +
+                        $"\tPress 1: To Display All Members in {clubController.ActiveClub.Name}\n" +
+                        $"\tPress 2: To Display All Clubs\n" +
+                        $"\tPress 3: To Display All Members of A Specific Club\n" +
+                        $"\tPress 4: To Display All Members of All Clubs\n" +
+                        $"\tPress 5: To Return to the Main Menu");
+
+                switch(confirmedNum)
+                {
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                }
             }
         }
         public static void CancelMembership()

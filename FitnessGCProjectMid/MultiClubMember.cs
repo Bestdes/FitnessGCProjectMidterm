@@ -49,7 +49,6 @@ namespace FitnessGCProjectMid
             StreamWriter writer = new StreamWriter("../../../CheckedInMembers.txt");
             writer.WriteLine($"{club.Name}: {Name} + 123");
             writer.Close();
-            Console.WriteLine("Success");
         }
 
         public override bool CheckIfIsAMemberOfActiveLocation()

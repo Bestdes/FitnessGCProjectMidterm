@@ -46,8 +46,6 @@ namespace FitnessGCProjectMid
                     StreamWriter writer = new StreamWriter("../../../CheckedInMembers.txt");
                     writer.WriteLine($"{club.Name}: {Name} + {ID}");
                     writer.Close();
-                    Console.WriteLine("Success");
-
                 }
 
                 catch (FormatException)

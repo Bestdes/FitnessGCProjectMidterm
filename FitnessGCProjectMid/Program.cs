@@ -69,6 +69,7 @@ namespace FitnessGCProjectMid
                             CancelMembership();
                             break;*/
                         case 4:
+                            activeEmployeeSession = LoginAnotherUser();
                             break;
 
                         case 5:
@@ -105,6 +106,31 @@ namespace FitnessGCProjectMid
                 $"\tPress 5: Close Session");
         }
 
+        public static bool LoginAnotherUser()
+        {
+            bool keepAsking = true;
+            while (keepAsking)
+            {
+                Console.WriteLine("Would you like to login to another user? y/n");
+                string response = Console.ReadLine().ToLower().Trim();
+                if (response != "y" && response != "n")
+                {
+                    Console.WriteLine("I did not understand that. Please enter y/n");
+                    keepAsking = true;
+                }
+                else if (response == "y")
+                {
+                    keepAsking = false;
+                    return false;
+                }
+                else if (response == "n")
+                {
+                    keepAsking = false;
+                    return true;
+                }
+            }
+            return true;
+        }
         public static void ModifyMemberStatus(ClubController clubController)
         {
             Console.Clear();

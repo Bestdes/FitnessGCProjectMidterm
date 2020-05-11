@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -18,6 +19,7 @@ namespace FitnessGCProjectMid
             testingClub.AddMemberToClub(testingMember);
 
             listOfClubs.AddClubToList(testingClub);
+            
 
             listOfClubs.PrintAllClubsAndMembers();
 
@@ -81,8 +83,11 @@ namespace FitnessGCProjectMid
             Console.WriteLine($"Hello, employee please input your name: ");
             string input = ReadAndReturnInput();
             employee.EmployeeName = input;
-            Console.Clear();
-            Console.WriteLine($"{employee.EmployeeName} what Club Database do you want to enter?");
+            Console.Clear();           
+            Console.WriteLine($"{employee.EmployeeName}, What Club Database do you want to enter?");
+            Console.WriteLine();
+            ListOfClubs.Instance.DisplayAllCLubs(); 
+            Console.WriteLine();
             string clubInput = ReadAndReturnInput();
             employee.ActiveClub = ListOfClubs.Instance.GlobalFindClubByName(clubInput);
             Console.Clear();

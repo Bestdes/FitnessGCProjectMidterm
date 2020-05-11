@@ -81,7 +81,7 @@ namespace FitnessGCProjectMid
             Club foundClub = new Club();
             foreach (Club club in ClubList)
             {
-                if(clubName == club.Name)
+                if (clubName == club.Name)
                 {
                     foundClub = club;
                     return foundClub;
@@ -101,14 +101,14 @@ namespace FitnessGCProjectMid
 
             foreach (Club club in ClubList)
             {
-                if(club.Name == clubName)
+                if (club.Name == clubName)
                 {
                     clubDoesExists = true;
                     return clubDoesExists;
                 }
                 else
                 {
-                    clubDoesExists = false; 
+                    clubDoesExists = false;
                     return clubDoesExists;
                 }
             }
@@ -125,9 +125,9 @@ namespace FitnessGCProjectMid
             Club workingClub = new Club();
             foreach (Club club in ClubList)
             {
-                foreach(Member member in club.ListOfMembers)
+                foreach (Member member in club.ListOfMembers)
                 {
-                    if(memberID == member.ID)
+                    if (memberID == member.ID)
                     {
                         workingClub = club;
                         return workingClub;
@@ -154,8 +154,12 @@ namespace FitnessGCProjectMid
             StreamWriter writer = new StreamWriter("../../../Members.txt");
             foreach (Club club in ClubList)
             {
+
                 writer.Write($"Club Name: {club.Name}" +
                     $"Members Include:");
+
+                writer.WriteLine($"Club Name: {club.Name}Members Include:");
+
 
                 foreach (Member member in club.ListOfMembers)
                 {
@@ -172,9 +176,27 @@ namespace FitnessGCProjectMid
             writer.WriteLine($"Clubs Include:");
             foreach (Club club in ClubList)
             {
-                writer.WriteLine($"\n\n\t{club.Name}");
+                writer.WriteLine($"{club.Name}");
             }
             writer.Close();
+        }
+
+        public void DisplayAllCLubs()
+        {
+            List<string> list = new List<string>();
+
+            using (StreamReader reader = new StreamReader("../../../Clubs.txt"))
+            {
+                string line;
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    list.Add(line); // Add to list.
+                    Console.WriteLine(line); // Write to console.                    
+                }
+                line = reader.ReadLine();
+              
+            }
         }
 
     }

@@ -169,16 +169,26 @@ namespace FitnessGCProjectMid
         public static void CancelMembership()
         {
             var club = new Club("Planet Fitness","1234 Leisure Drive");
-            var scMember = new SingleClubMember(1, "Amanda", "Bledsoe", club);
+            var scMember = new SingleClubMember();
             var mcMember = new MultiClubMember();
-            List<ListOfClubs> clubList = new List<ListOfClubs>();
+            var clubController = new ClubController();
 
             Console.WriteLine("Begin the membership cancellation process by entering a member ID or NAME.\nWhich would you like to enter? (ID/NAME)");
             string decision = Console.ReadLine().Trim().ToLower();
             if (decision == "id")
             {
-                club.RemoveMemberFromClub(scMember);
-                club.RemoveMemberFromClub(mcMember);
+                Console.WriteLine("Enter the ID number of the person you wish to cancel the membership for:");
+                string memberID = ReadAndReturnInput();
+                bool isAnID = int.TryParse(memberID, out int result);
+                if(isAnID)
+                {
+                    Console.WriteLine($"{ListOfClubs.Instance.GlobalFindClubOfMember(result).Name}");
+                    Club otherClub = ListOfClubs.Instance.GlobalFindClubOfMember(result);
+                }
+                else
+                {
+                    Console.WriteLine("I'm sorry, I could not locate a member with that ID number.");
+                }
             }
             else if (decision == "name")
             {
@@ -187,20 +197,20 @@ namespace FitnessGCProjectMid
                 string firstName = ReadAndReturnInput().ToLower();
                 Console.WriteLine("Enter the member's last name:");
                 string lastName = ReadAndReturnInput().ToLower();
+                string name = firstName + " " + lastName;
 
-                Member member = new SingleClubMember(1, firstName, lastName, club);
-                string fullName = firstName + " " + lastName;
+                Member member2 = new SingleClubMember(5, name);
 
                 string[] fileLines = System.IO.File.ReadAllLines(membersFile,System.Text.Encoding.Default);
                 for (int i = 0; i < fileLines.Length; i++)
                 {
-                    if (fileLines[i].Contains(fullName))
+                    if (fileLines[i].Contains(member2.Name))
                     {
                         Console.WriteLine("The associated membership has been cancelled");
                     }
                     else
                     {
-                        continue;
+                        Console.WriteLine("I could not locate a member by that name.");
                     }
                 }
             }

@@ -1,5 +1,1 @@
-Club Name: Testing Club
-
-Members Include:
-
-	Jon Doe
+Club Name: Testing ClubMembers Include:Jon Doe

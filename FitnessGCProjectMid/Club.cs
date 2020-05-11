@@ -61,7 +61,7 @@ namespace FitnessGCProjectMid
         {
             try
             {
-                Console.WriteLine("\nPlease input your ID number: ");
+                Console.WriteLine("\nPlease input the member's ID number: ");
                 string input = ReadAndReturnInput();
                 int num = 0;
                 bool isANum = int.TryParse(input, out num);
@@ -71,6 +71,7 @@ namespace FitnessGCProjectMid
                     if (searchedForMember.ID == num)
                     {
                         ListOfMembers.Remove(searchedForMember);
+                        Console.WriteLine("The membership for this person has been cancelled.");
                     }
                     else
                     {

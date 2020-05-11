@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -9,12 +10,6 @@ namespace FitnessGCProjectMid
     {
         static void Main(string[] args)
         {
-
-            /*Club club = new Club();
-            List<Club> clubList = new List<Club>();
-            SingleClubMember scMember = new SingleClubMember();
-            MultiClubMember mcMember = new MultiClubMember();*/
-
             ListOfClubs listOfClubs = ListOfClubs.Instance;
 
             Club testingClub = new Club("Testing Club", "First Address");
@@ -66,22 +61,10 @@ namespace FitnessGCProjectMid
                             ModifyMemberStatus(activeEmployee);
                             break;
 
-                        /*case 3:
+                        case 3:
                             //option to remove a member from a club
-                            Console.WriteLine("Enter the name of the member you wish to remove:");
-                            Member removeMem = Member.FindMember();
-
-                            Console.WriteLine("Enter the club you wish to remove this member from:");
-                            string removeClub = Club.ReadAndReturnInput();
-                            club.RemoveMemberFromClub(removeMem, removeClub);
+                            CancelMembership();
                             break;
-
-                        case 4:
-                            //option to display member information
-                            Console.WriteLine("Enter the name of the member you wish to display information for:");
-                            string memberDisplay = Console.ReadLine().Trim();
-                            Member.FindMember();
-                            break;*/
 
                         case 4:
                             //option to exit the program
@@ -109,9 +92,9 @@ namespace FitnessGCProjectMid
         {
             Console.WriteLine($"CheckIn Members to: {clubController.ActiveClub.Name}\n" +
                 $"\tPress 1: To Modify a member status\n" +
-                $"\tPress 2:Search Fitness Club Database\n" +
-                $"\tPress 3:Change Active Employee\n" +
-                $"\tPress 4:Close Session");
+                $"\tPress 2: Search Fitness Club Database\n" +
+                $"\tPress 3: Cancel Active Membership\n" +
+                $"\tPress 4: Close Session");
         }
 
         public static void ModifyMemberStatus(ClubController clubController)
@@ -183,6 +166,52 @@ namespace FitnessGCProjectMid
 
             }
         }
+        public static void CancelMembership()
+        {
+            var club = new Club("Planet Fitness","1234 Leisure Drive");
+            var scMember = new SingleClubMember(1, "Amanda", "Bledsoe", club);
+            var mcMember = new MultiClubMember();
+            List<ListOfClubs> clubList = new List<ListOfClubs>();
+
+            Console.WriteLine("Begin the membership cancellation process by entering a member ID or NAME.\nWhich would you like to enter? (ID/NAME)");
+            string decision = Console.ReadLine().Trim().ToLower();
+            if (decision == "id")
+            {
+                club.RemoveMemberFromClub(scMember);
+                club.RemoveMemberFromClub(mcMember);
+            }
+            else if (decision == "name")
+            {
+                string membersFile = "../../../members.txt";
+                Console.WriteLine("Enter the member's first name:");
+                string firstName = ReadAndReturnInput().ToLower();
+                Console.WriteLine("Enter the member's last name:");
+                string lastName = ReadAndReturnInput().ToLower();
+
+                Member member = new SingleClubMember(1, firstName, lastName, club);
+                string fullName = firstName + " " + lastName;
+
+                string[] fileLines = System.IO.File.ReadAllLines(membersFile,System.Text.Encoding.Default);
+                for (int i = 0; i < fileLines.Length; i++)
+                {
+                    if (fileLines[i].Contains(fullName))
+                    {
+                        Console.WriteLine("The associated membership has been cancelled");
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("I'm sorry, I didn't recognize that decision.");
+            }
+            Console.WriteLine("");
+            Console.WriteLine();
+        }
+
 
         public static string ReadAndReturnInput()
         {

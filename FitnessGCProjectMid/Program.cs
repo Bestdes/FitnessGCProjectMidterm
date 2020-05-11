@@ -83,15 +83,26 @@ namespace FitnessGCProjectMid
 
         public static void GreetingsPrompt(ClubController employee)
         {
+            int i = 0;
             Console.WriteLine($"Hello, employee please input your name: ");
             string input = ReadAndReturnInput();
             employee.EmployeeName = input;
             Console.Clear();           
-            Console.WriteLine($"{employee.EmployeeName}, What Club Database do you want to enter?");
+            Console.WriteLine($"{employee.EmployeeName}, What Club Database do you want to enter? Select by number or name. ");
             Console.WriteLine();
-            ListOfClubs.Instance.DisplayAllCLubs(); 
+            ListOfClubs.Instance.DisplayAllCLubs();            
             Console.WriteLine();
             string clubInput = ReadAndReturnInput();
+            int numInput = int.Parse(clubInput);
+            foreach (Club c in ListOfClubs.Instance.ClubList)
+            {
+                i++;
+                if (numInput == i)
+                {
+                    employee.ActiveClub = c;
+                    Console.WriteLine(employee.ActiveClub.Name);
+                }
+            }
             employee.ActiveClub = ListOfClubs.Instance.GlobalFindClubByName(clubInput);
             Console.Clear();
         }

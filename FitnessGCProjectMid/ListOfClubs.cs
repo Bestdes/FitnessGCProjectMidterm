@@ -179,6 +179,8 @@ namespace FitnessGCProjectMid
 
         public void DisplayAllCLubs()
         {
+            int i = 0;
+
             List<string> list = new List<string>();
 
             using (StreamReader reader = new StreamReader("../../../Clubs.txt"))
@@ -187,13 +189,18 @@ namespace FitnessGCProjectMid
 
                 while ((line = reader.ReadLine()) != null)
                 {
+                    i++;
                     list.Add(line); // Add to list.
-                    Console.WriteLine(line); // Write to console.                    
+                    Console.WriteLine($"{i}. {line}"); // Write to console.                    
                 }
-                line = reader.ReadLine();
-              
+                 
+                line = reader.ReadLine();             
             }
         }
 
+        //public void RetrievingTextDatabase()
+        //{
+        
+        //}
     }
 }

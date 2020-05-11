@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
 
 namespace FitnessGCProjectMid
@@ -44,6 +45,11 @@ namespace FitnessGCProjectMid
         {
             //This is were we code goes that would print a text file that prints all members who are checked in to this club At the moment
             MemPts++;
+
+            StreamWriter writer = new StreamWriter("../../../CheckedInMembers.txt");
+            writer.WriteLine($"{club.Name}: {Name} + 123");
+            writer.Close();
+            Console.WriteLine("Success");
         }
 
         public override bool CheckIfIsAMemberOfActiveLocation()

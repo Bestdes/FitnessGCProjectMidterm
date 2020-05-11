@@ -154,11 +154,12 @@ namespace FitnessGCProjectMid
             StreamWriter writer = new StreamWriter("../../../Members.txt");
             foreach (Club club in ClubList)
             {
-                writer.WriteLine($"Club Name: {club.Name}\n\nMembers Include:");
+                writer.WriteLine($"Club Name: {club.Name}Members Include:");
+                writer.WriteLine($"Member Include:");
 
                 foreach (Member member in club.ListOfMembers)
                 {
-                    writer.WriteLine($"\n\t{member.Name}");
+                    writer.WriteLine($"{member.Name}");
                 }
             }
             writer.Close();

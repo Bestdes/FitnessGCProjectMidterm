@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+
 
 namespace FitnessGCProjectMid
 {
@@ -52,8 +50,9 @@ namespace FitnessGCProjectMid
                     {
                         case 1:
                             //Option to check a member into a club
-                            ModifyMemberStatus(activeEmployee);
+                            activeEmployee.ActiveClub.MemberCheckIn(activeEmployee.ActiveClub);
                             listOfClubs.PrintAllClubsAndMembers();
+                            Console.Clear();
                             break;
 
                         case 2:
@@ -61,12 +60,14 @@ namespace FitnessGCProjectMid
                             ModifyMemberStatus(activeEmployee);
                             break;
 
-                        case 3:
+                        /*case 3:
                             //option to remove a member from a club
                             CancelMembership();
+                            break;*/
+                        case 4:
                             break;
 
-                        case 4:
+                        case 5:
                             //option to exit the program
                             Console.WriteLine("Logging you out and closing the program...");
                             Environment.Exit(0);
@@ -90,11 +91,11 @@ namespace FitnessGCProjectMid
 
         public static void DirectionsPrompt(ClubController clubController)
         {
-            Console.WriteLine($"CheckIn Members to: {clubController.ActiveClub.Name}\n" +
-                $"\tPress 1: To Modify a member status\n" +
-                $"\tPress 2: Search Fitness Club Database\n" +
-                $"\tPress 3: Cancel Active Membership\n" +
-                $"\tPress 4: Close Session");
+            Console.WriteLine($"\tPress 1: CheckIn Members to: {clubController.ActiveClub.Name}\n" +
+                $"\tPress 2: To Modify a Member Status\n" +
+                $"\tPress 3: Search Fitness Club Database\n" +
+                $"\tPress 4: Login To Another User\n" +
+                $"\tPress 5: Close Session");
         }
 
         public static void ModifyMemberStatus(ClubController clubController)
@@ -105,10 +106,10 @@ namespace FitnessGCProjectMid
             while(runModifyStatus)
             {
                 Console.WriteLine($"What would action would you like to initiate?\n\n" +
-                    $"\tPress 1: To Add New Member To {clubController.ActiveClub.Name}\n" +
-                    $"\tPress 2: To Add New Member To {clubController.ActiveClub.Name}\n" +
-                    $"\tPress 3: To Add New Member To Other Club\n" +
-                    $"\tPress 4: To Add New Member To Other Club\n" +
+                    $"\tPress 1: To Add New Member To: {clubController.ActiveClub.Name}\n" +
+                    $"\tPress 2: To Remove Member From: {clubController.ActiveClub.Name}\n" +
+                    $"\tPress 3: To Add New Member To: Other Club\n" +
+                    $"\tPress 4: To Remove Member From: Other Club\n" +
                     $"\tPress 5: To Return To Main Menu");
 
                 string input = ReadAndReturnInput();

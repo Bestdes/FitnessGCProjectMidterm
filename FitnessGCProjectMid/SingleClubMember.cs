@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace FitnessGCProjectMid
@@ -14,17 +15,17 @@ namespace FitnessGCProjectMid
         // The code below represents the Constructor(s) for the class: SingleClubMember
         public SingleClubMember(int id, string firstName, string lastName, Club clubAssign) : base(id, firstName, lastName)
         {
-            /*this.ClubAssign = clubAssign;*/
+            this.ClubAssign = clubAssign;
         }
 
         public SingleClubMember(int id, string name, Club clubAssign) : base(id, name)
         {
-
+            this.ClubAssign = clubAssign;
         }
 
-        public SingleClubMember(int id, string name): base(id, name)
+        public SingleClubMember(int id, string name) : base(id, name)
         {
-         
+
         }
 
         public SingleClubMember()
@@ -40,14 +41,19 @@ namespace FitnessGCProjectMid
             if (club == ClubAssign)
             {
                 try
-                    {
-                    club = ClubAssign;
-                    }
+                {
+                    /*club = ClubAssign;*/
+                    StreamWriter writer = new StreamWriter("../../../CheckedInMembers.txt");
+                    writer.WriteLine($"{club.Name}: {Name} + 123");
+                    writer.Close();
+                    Console.WriteLine("Success");
 
-                    catch (FormatException)
-                    {
+                }
+
+                catch (FormatException)
+                {
                     Console.WriteLine("That is not a valid club. ");
-                    }
+                }
             }
         }
 

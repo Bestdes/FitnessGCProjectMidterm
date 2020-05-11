@@ -194,23 +194,45 @@ namespace FitnessGCProjectMid
             }
             return single;
         }
+        
+        public bool ValidateIfMemberisInClub(Member member, Club club)
+        {
+            bool isAMember = false;
+
+            if(club.ListOfMembers.Contains(member))
+            {
+                isAMember = true;
+                return isAMember;
+            }
+            else
+            {
+                return isAMember;
+            }
+        }
 
         // This method just adds the behaviour of a member checking in from the active Club class
-        public void MemberCheckIn(Member member, Club club)
+        public void MemberCheckIn(Club club)
         {
+            Member member = FindMemberByIDLoop();
 
-            member = FindMemberByIDLoop();
-            try
+            if (ValidateIfMemberisInClub(member, club))
             {
-                member.CheckIn(ListOfClubs.Instance.GlobalFindClubOfMember(member.ID));
+                try
+                {
+                    member.CheckIn(ListOfClubs.Instance.GlobalFindClubOfMember(member.ID));
+                }
+                catch (FormatException notANum)
+                {
+                    Console.WriteLine("Some type of Exception is thrown");
+                }
+                catch (OverflowException numTooBig)
+                {
+                    Console.WriteLine("Some type of Exception is thrown");
+                }
             }
-            catch (FormatException notANum)
+            else
             {
-                Console.WriteLine("Some type of Exception is thrown");
-            }
-            catch (OverflowException numTooBig)
-            {
-                Console.WriteLine("Some type of Exception is thrown");
+                Console.WriteLine($"Error, not a member of: {club.Name}");
             }
         }
 
@@ -219,5 +241,6 @@ namespace FitnessGCProjectMid
         {
             ListOfMembers.Add(newMember);
         }
+
     }
 }

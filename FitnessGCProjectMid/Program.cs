@@ -19,7 +19,7 @@ namespace FitnessGCProjectMid
             testingClub.AddMemberToClub(testingMember);
 
             listOfClubs.AddClubToList(testingClub);
-            
+
 
             listOfClubs.PrintAllClubsAndMembers();
 
@@ -32,7 +32,7 @@ namespace FitnessGCProjectMid
 
             while (runProgram)
             {
-                
+
 
                 ClubController activeEmployee = new ClubController();
                 GreetingsPrompt(activeEmployee);
@@ -60,7 +60,7 @@ namespace FitnessGCProjectMid
                             break;
 
                         case 2:
-                            //Option to a member to a club
+                            //Option to add a member to a club
                             ModifyMemberStatus(activeEmployee);
                             break;
 
@@ -69,7 +69,6 @@ namespace FitnessGCProjectMid
                             CancelMembership();
                             break;*/
                         case 4:
-                            activeEmployeeSession = LoginAnotherUser();
                             break;
 
                         case 5:
@@ -84,26 +83,15 @@ namespace FitnessGCProjectMid
 
         public static void GreetingsPrompt(ClubController employee)
         {
-            int i = 0;
             Console.WriteLine($"Hello, employee please input your name: ");
             string input = ReadAndReturnInput();
             employee.EmployeeName = input;
-            Console.Clear();           
-            Console.WriteLine($"{employee.EmployeeName}, What Club Database do you want to enter? Select by number or name. ");
+            Console.Clear();
+            Console.WriteLine($"{employee.EmployeeName}, What Club Database do you want to enter?");
             Console.WriteLine();
-            ListOfClubs.Instance.DisplayAllCLubs();            
+            ListOfClubs.Instance.DisplayAllCLubs();
             Console.WriteLine();
             string clubInput = ReadAndReturnInput();
-            int numInput = int.Parse(clubInput);
-            foreach (Club c in ListOfClubs.Instance.ClubList)
-            {
-                i++;
-                if (numInput == i)
-                {
-                    employee.ActiveClub = c;
-                    Console.WriteLine(employee.ActiveClub.Name);
-                }
-            }
             employee.ActiveClub = ListOfClubs.Instance.GlobalFindClubByName(clubInput);
             Console.Clear();
         }
@@ -117,37 +105,12 @@ namespace FitnessGCProjectMid
                 $"\tPress 5: Close Session");
         }
 
-        public static bool LoginAnotherUser()
-        {
-            bool keepAsking = true;
-            while (keepAsking)
-            {
-                Console.WriteLine("Would you like to login to another user? y/n");
-                string response = Console.ReadLine().ToLower().Trim();
-                if (response != "y" && response != "n")
-                {
-                    Console.WriteLine("I did not understand that. Please enter y/n");
-                    keepAsking = true;
-                }
-                else if (response == "y")
-                {
-                    keepAsking = false;
-                    return false;
-                }
-                else if (response == "n")
-                {
-                    keepAsking = false;
-                    return true;
-                }
-            }
-            return true;
-        }
         public static void ModifyMemberStatus(ClubController clubController)
         {
             Console.Clear();
 
             bool runModifyStatus = true;
-            while(runModifyStatus)
+            while (runModifyStatus)
             {
                 Console.WriteLine($"What would action would you like to initiate?\n\n" +
                     $"\tPress 1: To Add New Member To: {clubController.ActiveClub.Name}\n" +
@@ -160,19 +123,20 @@ namespace FitnessGCProjectMid
                 int confirmedNum;
                 bool isANum = int.TryParse(input, out confirmedNum);
 
-                if(isANum)
+                if (isANum)
                 {
+
                     switch (confirmedNum)
                     {
                         case 1:
                             Console.WriteLine("Will the member use more than one Fitness Club?  (y/n)");
                             string multiSingleInput = ReadAndReturnInput().Trim();
-                            if(multiSingleInput == "n")
+                            if (multiSingleInput == "n")
                             {
                                 Member singleNewMem = new SingleClubMember();
                                 clubController.ActiveClub.AddMemberToClub();
                             }
-                            else if(multiSingleInput == "n")
+                            else if (multiSingleInput == "n")
                             {
                                 Member singleNewMem = new MultiClubMember(); // The logic to decide what type of Member probably has to go inside the AddMemberToClub Method
                                 clubController.ActiveClub.AddMemberToClub();
@@ -201,6 +165,7 @@ namespace FitnessGCProjectMid
                             runModifyStatus = false;
                             Console.Clear();
                             break;
+
                     }
                 }
                 else
@@ -210,102 +175,109 @@ namespace FitnessGCProjectMid
 
             }
         }
-
-        public static void SearchDataBase(ClubController clubController)
-        {
-            Console.Clear();
-
-            bool runSearchDatabase = true;
-
-            while (runSearchDatabase)
-            {
-                string input = ReadAndReturnInput();
-                int confirmedNum;
-                bool isANum = int.TryParse(input, out confirmedNum);
-
-                Console.WriteLine($"What would action would you like to initiate?\n\n" +
-                        $"\tPress 5: To Display A Specific Member of Specific Club" +
-                        $"\tPress 1: To Display All Members in {clubController.ActiveClub.Name}\n" +
-                        $"\tPress 2: To Display All Clubs\n" +
-                        $"\tPress 3: To Display All Members of A Specific Club\n" +
-                        $"\tPress 4: To Display All Members of All Clubs\n" +
-                        $"\tPress 5: To Return to the Main Menu");
-
-                switch(confirmedNum)
-                {
-                    case 1:
-                        
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
-                    case 7:
-                        break;
-                }
-            }
-        }
         public static void CancelMembership()
         {
             var club = new Club();
-            var scMember = new SingleClubMember();
-            var mcMember = new MultiClubMember();
-            var clubController = new ClubController();
-
-            Console.WriteLine("Begin the membership cancellation process by entering a member ID or NAME.\nWhich would you like to enter? (ID/NAME)");
-            string decision = Console.ReadLine().Trim().ToLower();
-            if (decision == "id")
+            bool cancellingMems = true;
+            while(cancellingMems)
             {
-                bool byID = true;
-                if(byID)
+                Console.WriteLine("");
+                Console.WriteLine("Begin the membership cancellation process by entering a member ID or NAME.\nWhich would you like to enter? (ID/NAME)");
+                string decision = Console.ReadLine().Trim().ToLower();
+                if (decision == "id")
                 {
                     Member member1 = new SingleClubMember();
-                    club.RemoveMemberFromClub(member1);
-                    Console.WriteLine($"This membership has been cancelled successfully.");
-                }
-                else
-                {
-                    Console.WriteLine("I'm sorry, I could not locate a member with that ID number.");
-                }
-            }
-            else if (decision == "name")
-            {
-                    string membersFile = "../../../members.txt";
-                    Console.WriteLine("Enter the member's first name:");
-                    string firstName = ReadAndReturnInput().ToLower();
-                    Console.WriteLine("Enter the member's last name:");
-                    string lastName = ReadAndReturnInput().ToLower();
-                    string name = firstName + " " + lastName;
+                    Member member2 = new MultiClubMember();
 
-                    Member member2 = new SingleClubMember(5, name);
+                    Console.WriteLine("\nPlease input the member's ID number: ");
+                    string input = ReadAndReturnInput();
+                    int num = 0;
+                    bool isANum = int.TryParse(input, out num);
 
-                    string[] fileLines = System.IO.File.ReadAllLines(membersFile, System.Text.Encoding.Default);
-                    for (int i = 0; i < fileLines.Length; i++)
+                    if (member1.ID == num)
                     {
-                        if (fileLines[i].Contains(member2.Name))
+                        Console.WriteLine("");
+                        club.RemoveMemberFromClub(member1, num);
+                        Console.WriteLine($"This membership has been located and cancelled successfully, and you'll be returned to the Modify Member Status Menu.");
+                        Console.WriteLine("");
+                        cancellingMems = false;
+                    }
+                    else if(member2.ID == num)
+                    {
+                        Console.WriteLine("");
+                        club.RemoveMemberFromClub(member2, num);
+                        Console.WriteLine($"This membership has been located and cancelled successfully, and you'll be returned to the Modify Member Status Menu.");
+                        Console.WriteLine("");
+                        cancellingMems = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("I'm sorry, I could not locate a member with that ID number. Would you like to try entering the member ID again? (Y/N)");
+                        string goAgainChoice = Console.ReadLine().Trim().ToLower();
+                        if (goAgainChoice == "y" || goAgainChoice == "yes")
                         {
-                            Console.WriteLine("The associated membership has been cancelled");
+                            cancellingMems = true;
+                        }
+                        else if (goAgainChoice == "n" || goAgainChoice == "no")
+                        {
+                            cancellingMems = false;
                         }
                         else
                         {
-                            Console.WriteLine("I could not locate a member by that name.");
+                            Console.WriteLine("I'm sorry, I can only accept yes or no responses. Please try again.");
+                            cancellingMems = true;
+                        }
+                    }
+                }
+                else if (decision == "name")
+                {
+                    Member member1 = new SingleClubMember();
+                    Member member2 = new MultiClubMember();
+                    Console.WriteLine("\nPlease input the member's full name: ");
+                    string input = ReadAndReturnInput();
+
+                    if (member1.Name == input)
+                    {
+                        Console.WriteLine("");
+                        club.RemoveMemberFromClubByName(member1, input);
+                        Console.WriteLine("This membership has been located and succesfully cancelled, and you'll be returned to the Modify Member Status Menu.");
+                        Console.WriteLine("");
+                        cancellingMems = false;
+                    }
+                    else if(member2.Name == input)
+                    {
+                        Console.WriteLine("");
+                        club.RemoveMemberFromClubByName(member2, input);
+                        Console.WriteLine("This membership has been located and succesfully cancelled, and you'll be returned to the Modify Member Status Menu.");
+                        Console.WriteLine("");
+                        cancellingMems = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("I'm sorry, I could not locate a member by that name. Perhaps we experienced a typo. Would you like to try entering the member's name again? (Y/N)");
+                        string goAgainChoice = Console.ReadLine().Trim().ToLower();
+                        if (goAgainChoice == "y" || goAgainChoice == "yes")
+                        {
+                            cancellingMems = true;
+                        }
+                        else if (goAgainChoice == "n" || goAgainChoice == "no")
+                        {
+                            cancellingMems = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("I'm sorry, I can only accept yes or no responses. Please try again.");
+                            cancellingMems = true;
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("I'm sorry, I didn't recognize that decision.");
+                    Console.WriteLine("I'm sorry, I didn't recognize that decision. Please try again.");
+                    cancellingMems = true;
                 }
-                Console.WriteLine("");
-                Console.WriteLine();
             }
-
+        }
 
         public static string ReadAndReturnInput()
         {

@@ -117,63 +117,7 @@ namespace FitnessGCProjectMid
 
         public void GlobalFindMember() //WIll return Member
         {
-            List<Member> foundResults = new List<Member>();
-            string searchedForMember = "";
-            int resultsfoundCount = 0;
-            bool isSelectingResult = true;
-
-            foreach (Club club in ClubList)
-            {
-                foreach(Member member in club.ListOfMembers)
-                {
-                    if(member.Name.ToLower().Trim() == searchedForMember)
-                    {
-                        foundResults.Add(member);
-                    }
-                }
-            }
-
-            foreach(Member member in foundResults)
-            {
-                resultsfoundCount++;
-                Console.WriteLine($"{resultsfoundCount}:{member.Name} : {member.ID} : {GlobalFindClubOfMember(member.ID).Name}");
-            }
-
-            if (foundResults.Count > 0)
-            {
-                while (isSelectingResult)
-                {
-
-                    Console.WriteLine("Please selet A Result");
-
-                    string input = ReadAndReturnInput();
-                    int selectionnNum = 0;
-                    bool isANum = int.TryParse(input, out selectionnNum);
-                    int index = 0;
-
-                    if (selectionnNum <= foundResults.Count)
-                    {
-                        foreach (Member member in foundResults)
-                        {
-                            index++;
-                            if (selectionnNum == index)
-                            {
-                                isSelectingResult = false;
-                               member.Display;
-                            }
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                Console.WriteLine("No results found");
-            }
-
-            
-
-
+            // Can implement by name and by ID
         }
 
         public Club GlobalFindClubOfMember(int memberID)
@@ -235,8 +179,6 @@ namespace FitnessGCProjectMid
 
         public void DisplayAllCLubs()
         {
-            int i = 0;
-
             List<string> list = new List<string>();
 
             using (StreamReader reader = new StreamReader("../../../Clubs.txt"))
@@ -245,22 +187,13 @@ namespace FitnessGCProjectMid
 
                 while ((line = reader.ReadLine()) != null)
                 {
-                    i++;
                     list.Add(line); // Add to list.
-                    Console.WriteLine($"{i}. {line}"); // Write to console.                    
+                    Console.WriteLine(line); // Write to console.                    
                 }
-                 
-                line = reader.ReadLine();             
+                line = reader.ReadLine();
+
             }
         }
-        public static string ReadAndReturnInput()
-        {
-            return Console.ReadLine();
-        }
 
-        //public void RetrievingTextDatabase()
-        //{
-        
-        //}
     }
 }

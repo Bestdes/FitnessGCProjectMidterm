@@ -30,7 +30,7 @@ namespace FitnessGCProjectMid
             Name = name;
         }
 
-        public Member() 
+        public Member()
         {
 
         }

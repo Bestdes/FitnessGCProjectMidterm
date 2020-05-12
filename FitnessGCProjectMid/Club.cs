@@ -106,21 +106,15 @@ namespace FitnessGCProjectMid
 
 
         // This method below is the primary Remove Member logic that will be used by the User Interface Logic (switch statement)
-        public void RemoveMemberFromClub(Member member)
+        public void RemoveMemberFromClub(Member member, int num)
         {
             try
             {
-                Console.WriteLine("\nPlease input the member's ID number: ");
-                string input = ReadAndReturnInput();
-                int num = 0;
-                bool isANum = int.TryParse(input, out num);
-
                 foreach (Member searchedForMember in ListOfMembers.ToArray())
                 {
                     if (searchedForMember.ID == num)
                     {
                         ListOfMembers.Remove(searchedForMember);
-                        Console.WriteLine("The membership for this person has been cancelled.");
                     }
                     else
                     {
@@ -128,7 +122,7 @@ namespace FitnessGCProjectMid
                     }
                 }
             }
-            catch(OverflowException numTooBig)
+            catch (OverflowException numTooBig)
             {
                 Console.WriteLine("The number you entered is too large. Please try again! (Example ID: 1234)");
             }
@@ -140,6 +134,21 @@ namespace FitnessGCProjectMid
             Member searchedMem = FindMemberByIDLoop();
 
             ListOfMembers.Remove(searchedMem);
+        }
+
+        public void RemoveMemberFromClubByName(Member member, string input)
+        {
+            foreach (Member searchedForMember in ListOfMembers.ToArray())
+            {
+                if (searchedForMember.Name == input)
+                {
+                    ListOfMembers.Remove(searchedForMember);
+                }
+                else
+                {
+                    Console.WriteLine("I'm sorry, I could not locate that name. Please try again.");
+                }
+            }
         }
 
 
@@ -216,12 +225,12 @@ namespace FitnessGCProjectMid
             }
             return single;
         }
-        
+
         public bool ValidateIfMemberisInClub(Member member, Club club)
         {
             bool isAMember = false;
 
-            if(club.ListOfMembers.Contains(member))
+            if (club.ListOfMembers.Contains(member))
             {
                 isAMember = true;
                 return isAMember;

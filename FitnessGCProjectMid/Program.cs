@@ -85,29 +85,43 @@ namespace FitnessGCProjectMid
             Console.WriteLine($"Hello, employee please input your name: ");
             string input = ReadAndReturnInput();
             employee.EmployeeName = input;
-            Console.Clear();     
-            
-            Console.WriteLine($"{employee.EmployeeName}, What Club Database do you want to enter?\nSelect by number please:\n");
-            /*Console.WriteLine();*/
-
-            ListOfClubs.Instance.RetrieveCreateDisplayClubsFromFile();
-
-            Console.WriteLine();
-
-            string clubInput = ReadAndReturnInput();
-            employee.ActiveClub = ListOfClubs.Instance.GlobalFindClubByName(clubInput);
-
-            int numInput = int.Parse(clubInput);
-            foreach (Club testingClub in ListOfClubs.Instance.ClubList)
-            {
-                i++;
-                if (numInput == i)
-                {
-                    employee.ActiveClub = testingClub;
-                    Console.WriteLine(employee.ActiveClub.Name);
-                }
-            }
             Console.Clear();
+            bool cont = true;
+            while (cont)
+            {
+                Console.WriteLine($"{employee.EmployeeName}, What Club Database do you want to enter?\nSelect by number please:\n");
+                /*Console.WriteLine();*/
+
+                ListOfClubs.Instance.RetrieveCreateDisplayClubsFromFile();
+
+                Console.WriteLine();
+
+                string clubInput = ReadAndReturnInput();
+                int num1 = 0;
+                bool clubInput2 = int.TryParse(clubInput, out num1);
+                if (clubInput2)
+                {
+                    if (num1 <= ListOfClubs.Instance.ClubList.Count() || num1 >= 1)
+                    {
+                        foreach (Club testingClub in ListOfClubs.Instance.ClubList)
+                        {
+                            i++;
+                            if (num1 == i)
+                            {
+                                employee.ActiveClub = testingClub;
+                                Console.WriteLine(employee.ActiveClub.Name);
+                                cont = false;
+                            }
+                        }
+                        Console.Clear();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("That is not a valid input. Please select 1 of the following 5 options.");
+                }
+
+            }
         }
 
         public static void DirectionsPrompt(ClubController clubController)
@@ -138,7 +152,7 @@ namespace FitnessGCProjectMid
                 string input = ReadAndReturnInput();
                 int confirmedNum;
                 bool isANum = int.TryParse(input, out confirmedNum);
-                
+
 
                 if (isANum)
                 {
@@ -260,7 +274,7 @@ namespace FitnessGCProjectMid
         {
             var club = new Club();
             bool cancellingMems = true;
-            while(cancellingMems)
+            while (cancellingMems)
             {
                 Console.WriteLine("");
                 Console.WriteLine("Begin the membership cancellation process by entering a member ID or NAME.\nWhich would you like to enter? (ID/NAME)");
@@ -283,7 +297,7 @@ namespace FitnessGCProjectMid
                         Console.WriteLine("");
                         cancellingMems = false;
                     }
-                    else if(member2.ID == num)
+                    else if (member2.ID == num)
                     {
                         Console.WriteLine("");
                         club.RemoveMemberFromClub(member2, num);
@@ -325,7 +339,7 @@ namespace FitnessGCProjectMid
                         Console.WriteLine("");
                         cancellingMems = false;
                     }
-                    else if(member2.Name == input)
+                    else if (member2.Name == input)
                     {
                         Console.WriteLine("");
                         club.RemoveMemberFromClubByName(member2, input);

@@ -59,7 +59,7 @@ namespace FitnessGCProjectMid
 
         public void DisplayAllMembers()
         {
-            foreach(Member member in ListOfMembers)
+            foreach (Member member in ListOfMembers)
             {
                 Console.WriteLine($"{member.Name}");
             }
@@ -75,7 +75,7 @@ namespace FitnessGCProjectMid
                 i++;
                 Console.WriteLine($"{i}. {c.Name}");
             }
-            Console.WriteLine($"6. Multi-club membership"); //or choose a multiclub membership
+            Console.WriteLine($"0. Multi-club membership"); //or choose a multiclub membership
             i = 0;
             string input = Console.ReadLine().Trim();
             if (!int.TryParse(input, out int userChoice))
@@ -107,7 +107,7 @@ namespace FitnessGCProjectMid
                         ListOfMembers.Add(newSingleMember);
                     }
                 }
-                if (userChoice == 6) //or adding a multiclub member
+                if (userChoice == 0) //or adding a multiclub member
                 {
                     Console.WriteLine($"New Member: {newName} {newLastName} added as a multi-club member with ID: {newId}");
                     Member newMultiMember = new MultiClubMember(newId, newName, newLastName, 0);
@@ -208,7 +208,7 @@ namespace FitnessGCProjectMid
                 {
                     foreach (Member searchingForMember in ListOfMembers.ToArray()) // This represents the active Club the emplyee is accessing from
                     {
-                        if(searchingForMember.ID == num)
+                        if (searchingForMember.ID == num)
                         {
                             if (searchingForMember.GetType().Equals(single.GetType()))
                             {

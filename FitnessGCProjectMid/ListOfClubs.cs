@@ -102,9 +102,8 @@ namespace FitnessGCProjectMid
 
             while (runMethodPart1)
             {
-
-            Console.WriteLine("\nEnter the name of the club you want to search");
-            string input = ReadAndReturnInput();
+                Console.WriteLine("\nEnter the name of the club you want to search");
+                string input = ReadAndReturnInput();
 
                 foreach (Club club in ListOfClubs.Instance.ClubList)
                 {
@@ -141,7 +140,7 @@ namespace FitnessGCProjectMid
                             }
                         }
                     }
-                    else if(input == club.Name || input.ToLower() != club.Name.ToLower())
+                    else if (input == club.Name || input.ToLower() != club.Name.ToLower())
                     {
                         Console.WriteLine($"No match in the list of clubs.");
                     }
@@ -185,7 +184,7 @@ namespace FitnessGCProjectMid
                 Console.WriteLine("Would you like to search for a member by name or ID?\n" +
                     "\n\tPress 1: To Search For A Member By Name" +
                     "\n\tPress 2: To Searh For A Member By ID" +
-                    "\n\tPress 0: To Return To The Previous Menu");
+                    "\n\tPress 3: To Return To The Previous Menu");
 
 
                 input1 = ReadAndReturnInput();
@@ -255,9 +254,10 @@ namespace FitnessGCProjectMid
                         }
                     }
                 }
-                else if (typeOfSearchSelection == 0)
+                else if (typeOfSearchSelection == 3)
                 {
                     run1stBehaviour = false;
+                    isSelectingResult = false;
                 }
                 else
                 {
@@ -300,7 +300,7 @@ namespace FitnessGCProjectMid
 
                 }
             }
-            else if (foundResults.Count == 0)
+            else if (run1stBehaviour && foundResults.Count == 0)
             {
                 Console.WriteLine("\nNo results found");
             }
@@ -339,7 +339,7 @@ namespace FitnessGCProjectMid
         public void DisplayAllMembersInSpecificClub(Club club)
         {
             int count = 0;
-            foreach(Member member in club.ListOfMembers)
+            foreach (Member member in club.ListOfMembers)
             {
                 count++;
                 Console.WriteLine($"{count}: Member Name: {member.Name}");

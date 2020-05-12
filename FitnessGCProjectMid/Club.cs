@@ -208,7 +208,7 @@ namespace FitnessGCProjectMid
                 {
                     foreach (Member searchingForMember in ListOfMembers.ToArray()) // This represents the active Club the emplyee is accessing from
                     {
-                        if (searchingForMember.ID == num)
+                        if(searchingForMember.ID == num)
                         {
                             if (searchingForMember.GetType().Equals(single.GetType()))
                             {
@@ -230,6 +230,7 @@ namespace FitnessGCProjectMid
                             runSearch = false;
                         }
                     }
+                    //----------------------------------------------------------------------------------------------------------------------
                 }
                 else if (!isANum)
                 {

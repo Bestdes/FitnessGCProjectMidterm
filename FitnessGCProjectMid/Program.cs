@@ -95,8 +95,6 @@ namespace FitnessGCProjectMid
             Console.WriteLine();
 
             string clubInput = ReadAndReturnInput();
-            employee.ActiveClub = ListOfClubs.Instance.GlobalFindClubByName(clubInput);
-
             int numInput = int.Parse(clubInput);
             foreach (Club testingClub in ListOfClubs.Instance.ClubList)
             {
@@ -243,6 +241,8 @@ namespace FitnessGCProjectMid
                         break;
                     case 4:
                         Console.Clear();
+                        ListOfClubs.Instance.GlobalFindMemberFromClub();
+                        Console.ReadLine();
                         break;
                     case 5:
                         Console.Clear();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Threading;
 
 namespace FitnessGCProjectMid
 {
@@ -92,6 +93,61 @@ namespace FitnessGCProjectMid
                 }
             }
             return foundClub;
+        }
+        public void GlobalFindMemberFromClub()
+        {
+            Club foundClub;
+            bool runMethodPart1 = true;
+            DisplayAllClubs();
+
+            while (runMethodPart1)
+            {
+
+            Console.WriteLine("\nEnter the name of the club you want to search");
+            string input = ReadAndReturnInput();
+
+                foreach (Club club in ListOfClubs.Instance.ClubList)
+                {
+                    if (input == club.Name || input.ToLower() == club.Name.ToLower())
+                    {
+                        foundClub = club;
+
+                        DisplayAllMembersInSpecificClub(foundClub);
+
+                        Console.WriteLine("\nPlease enter the name of the member you want details about");
+                        string input2 = ReadAndReturnInput();
+                        int turnedToInt;
+                        bool testingNum = int.TryParse(input2, out turnedToInt);
+
+                        foreach (Member member in foundClub.ListOfMembers)
+                        {
+                            if (member.Name == input2)
+                            {
+                                member.DisplayDetails();
+                                runMethodPart1 = false;
+                            }
+                            else if (testingNum)
+                            {
+                                if (member.ID == turnedToInt)
+                                {
+                                    member.DisplayDetails();
+                                    runMethodPart1 = false;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine($"No match in the {club.Name}");
+                                runMethodPart1 = false;
+                            }
+                        }
+                    }
+                    else if(input == club.Name || input.ToLower() != club.Name.ToLower())
+                    {
+                        Console.WriteLine($"No match in the list of clubs.");
+                    }
+                    runMethodPart1 = false;
+                }
+            }
         }
 
         public bool GlobalFindIfClubExists(string clubName)
@@ -278,8 +334,16 @@ namespace FitnessGCProjectMid
                 Console.WriteLine($"{i}. {club.Name} {club.Address}");
 
             }
+        }
 
-
+        public void DisplayAllMembersInSpecificClub(Club club)
+        {
+            int count = 0;
+            foreach(Member member in club.ListOfMembers)
+            {
+                count++;
+                Console.WriteLine($"{count}: Member Name: {member.Name}");
+            }
         }
 
         public void DisplayAllClubsAllMembers()

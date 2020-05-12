@@ -129,7 +129,7 @@ namespace FitnessGCProjectMid
                 Console.WriteLine("Would you like to search for a member by name or ID?\n" +
                     "\n\tPress 1: To Search For A Member By Name" +
                     "\n\tPress 2: To Searh For A Member By ID" +
-                    "\n\tPress 0: To Return To The Previous Menu");
+                    "\n\tPress 3: To Return To The Previous Menu");
 
 
                 input1 = ReadAndReturnInput();
@@ -199,9 +199,10 @@ namespace FitnessGCProjectMid
                         }
                     }
                 }
-                else if (typeOfSearchSelection == 0)
+                else if (typeOfSearchSelection == 3)
                 {
                     run1stBehaviour = false;
+                    isSelectingResult = false;
                 }
                 else
                 {
@@ -244,7 +245,7 @@ namespace FitnessGCProjectMid
 
                 }
             }
-            else if (foundResults.Count == 0)
+            else if (run1stBehaviour && foundResults.Count == 0)
             {
                 Console.WriteLine("\nNo results found");
             }

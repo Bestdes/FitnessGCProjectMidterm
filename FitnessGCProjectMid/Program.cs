@@ -66,6 +66,7 @@ namespace FitnessGCProjectMid
                             SearchDataBase(activeEmployee);
                             break;
                         case 4:
+                            activeEmployeeSession = LoginAnotherUser();
                             break;
 
                         case 5:
@@ -140,6 +141,10 @@ namespace FitnessGCProjectMid
                 bool isANum = int.TryParse(input, out confirmedNum);
                 
 
+                if (isANum && confirmedNum <= 0 || isANum && confirmedNum > 5)
+                {
+                    Console.WriteLine("The input you entered is not a valid number!\nPlease enter 1 through 5.");
+                }
                 if (isANum)
                 {
 
@@ -149,7 +154,7 @@ namespace FitnessGCProjectMid
                             while (runMStatus1)
                             {
                                 Console.WriteLine("Will the member use more than one Fitness Club?  (y/n)");
-                                string multiSingleInput = ReadAndReturnInput().Trim();
+                                string multiSingleInput = ReadAndReturnInput().ToLower().Trim();
                                 if (multiSingleInput == "n")
                                 {
                                     Member singleNewMem = new SingleClubMember();
@@ -222,37 +227,51 @@ namespace FitnessGCProjectMid
                 string input = ReadAndReturnInput();
                 int confirmedNum;
                 bool isANum = int.TryParse(input, out confirmedNum);
-
-                switch (confirmedNum)
+                if (isANum == false)
                 {
-                    case 1:
-                        Console.Clear();
-                        ListOfClubs.Instance.GlobalFindMember();
-                        Console.ReadLine();
-                        break;
-                    case 2:
-                        //Display all members in Active Club
-                        Console.Clear();
-                        clubController.ActiveClub.DisplayAllMembers();
-                        Console.ReadLine();
-                        break;
-                    case 3:
-                        Console.Clear();
-                        ListOfClubs.Instance.DisplayAllClubs();
-                        Console.ReadLine();
-                        break;
-                    case 4:
-                        Console.Clear();
-                        break;
-                    case 5:
-                        Console.Clear();
-                        ListOfClubs.Instance.DisplayAllClubsAllMembers();
-                        Console.ReadLine();
-                        break;
-                    case 6:
-                        runSearchDatabase = false;
-                        Console.Clear();
-                        break;
+                    Console.WriteLine("Not a valid number, please try again.");
+                }
+                else if (isANum && confirmedNum <= 0 || isANum && confirmedNum > 6)
+                {
+                    Console.WriteLine("The input you entered is not a valid number!\nPlease enter 1 through 6.");
+                }
+                else if (isANum)
+                {
+                    switch (confirmedNum)
+                    {
+                        case 1:
+                            Console.Clear();
+                            ListOfClubs.Instance.GlobalFindMember();
+                            Console.ReadLine();
+                            break;
+                        case 2:
+                            //Display all members in Active Club
+                            Console.Clear();
+                            clubController.ActiveClub.DisplayAllMembers();
+                            Console.ReadLine();
+                            break;
+                        case 3:
+                            Console.Clear();
+                            ListOfClubs.Instance.DisplayAllClubs();
+                            Console.ReadLine();
+                            break;
+                        case 4:
+                            Console.Clear();
+                            break;
+                        case 5:
+                            Console.Clear();
+                            ListOfClubs.Instance.DisplayAllClubsAllMembers();
+                            Console.ReadLine();
+                            break;
+                        case 6:
+                            runSearchDatabase = false;
+                            Console.Clear();
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("The input you entered is not a valid number!\nPlease try again.");
                 }
             }
         }
@@ -363,6 +382,31 @@ namespace FitnessGCProjectMid
         public static string ReadAndReturnInput()
         {
             return Console.ReadLine();
+        }
+        public static bool LoginAnotherUser()
+        {
+            bool keepAsking = true;
+            while (keepAsking)
+            {
+                Console.WriteLine("Would you like to login to another user? y/n");
+                string response = Console.ReadLine().ToLower().Trim();
+                if (response != "y" && response != "n")
+                {
+                    Console.WriteLine("I did not understand that. Please enter y/n");
+                    keepAsking = true;
+                }
+                else if (response == "y")
+                {
+                    keepAsking = false;
+                    return false;
+                }
+                else if (response == "n")
+                {
+                    keepAsking = false;
+                    return true;
+                }
+            }
+            return true;
         }
     }
 }

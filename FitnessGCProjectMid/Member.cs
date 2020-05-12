@@ -30,7 +30,7 @@ namespace FitnessGCProjectMid
             Name = name;
         }
 
-        public Member() 
+        public Member()
         {
 
         }
@@ -40,7 +40,8 @@ namespace FitnessGCProjectMid
         public abstract void CheckIn(Club club);
 
         // This method generally checks if the member is a member at current location the employee is accessing from
-        public abstract bool CheckIfIsAMemberOfActiveLocation();
+
+        public abstract void DisplayDetails();
 
 
         // This methods searches for any kind of member given the first and last name of the Member. 

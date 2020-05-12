@@ -29,6 +29,11 @@ namespace FitnessGCProjectMid
             Name = name;
             Address = address;
         }
+
+        public Club(string name)
+        {
+            Name = name;
+        }
         public Club()
         {
 
@@ -52,11 +57,19 @@ namespace FitnessGCProjectMid
             }
         }
 
+        public void DisplayAllMembers()
+        {
+            foreach(Member member in ListOfMembers)
+            {
+                Console.WriteLine($"{member.Name}");
+            }
+        }
+
         // This method below is the primary Add Member logic that will be used by the User Interface Logic (switch statement)
         public void AddMemberToClub()
         {
             int i = 0;
-            Console.WriteLine($"Which club would you like to be a member of? Please enter 1 through {ListOfClubs.Instance.ClubList.Count}");
+            Console.WriteLine($"\nWhich club would you like to be a member of? Please enter 1 through {ListOfClubs.Instance.ClubList.Count}\n");
             foreach (Club c in ListOfClubs.Instance.ClubList) //listing clubs for user to choose
             {
                 i++;
@@ -78,11 +91,11 @@ namespace FitnessGCProjectMid
             else
             {
                 userChoice = int.Parse(input);
-                Console.WriteLine("What is the member's first name?");
+                Console.WriteLine("What is the member's first name?\n");
                 string newName = Console.ReadLine().Trim();
-                Console.WriteLine("What is the member's last name?");
+                Console.WriteLine("What is the member's last name?\n");
                 string newLastName = Console.ReadLine().Trim();
-                Console.WriteLine("What is the member ID?");
+                Console.WriteLine("What is the member ID?\n");
                 int newId = int.Parse(Console.ReadLine().Trim());
                 foreach (Club c in ListOfClubs.Instance.ClubList) //adding a single club member 
                 {

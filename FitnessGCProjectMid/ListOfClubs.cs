@@ -117,38 +117,117 @@ namespace FitnessGCProjectMid
 
         public void GlobalFindMember() //WIll return Member
         {
+
+
             List<Member> foundResults = new List<Member>();
             string searchedForMember = "";
             int resultsfoundCount = 0;
             bool isSelectingResult = true;
+            bool run1stBehaviour = true;
+            string input1;
 
-            foreach (Club club in ClubList)
+            while (run1stBehaviour)
             {
-                foreach(Member member in club.ListOfMembers)
+                Console.WriteLine("Would you like to search for a member by name or ID?\n" +
+                    "\n\tPress 1: To Search For A Member By Name" +
+                    "\n\tPress 2: To Searh For A Member By ID" +
+                    "\n\tPress 0: To Return To The Previous Menu");
+
+
+                input1 = ReadAndReturnInput();
+                int typeOfSearchSelection = 0;
+                bool isAnInt = int.TryParse(input1, out typeOfSearchSelection);
+
+                if (typeOfSearchSelection == 1)
                 {
-                    if(member.Name.ToLower().Trim() == searchedForMember)
+                    Console.WriteLine("Enter the Name of the member to initiate a search.");
+                    searchedForMember = ReadAndReturnInput();
+
+                    foreach (Club club in ClubList)
                     {
-                        foundResults.Add(member);
+                        if (club.ListOfMembers.Count > 0)
+                        {
+                            foreach (Member member in club.ListOfMembers)
+                            {
+                                if (member.Name.ToLower().Trim() == searchedForMember)
+                                {
+                                    foundResults.Add(member);
+                                    run1stBehaviour = false;
+                                }
+                                else if (member.Name == searchedForMember)
+                                {
+                                    foundResults.Add(member);
+                                    run1stBehaviour = false;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nThe name you entered did not return a Member.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Club: {club.Name} returned no results");
+                        }
                     }
                 }
-            }
+                else if (typeOfSearchSelection == 2)
+                {
+                    Console.WriteLine("Enter the ID of the member to initiate a search.");
+                    searchedForMember = ReadAndReturnInput();
+                    int parsedNum = 0;
+                    bool isANum = int.TryParse(searchedForMember, out parsedNum);
 
-            foreach(Member member in foundResults)
-            {
-                resultsfoundCount++;
-                Console.WriteLine($"{resultsfoundCount}:{member.Name} : {member.ID} : {GlobalFindClubOfMember(member.ID).Name}");
+                    foreach (Club club in ClubList)
+                    {
+                        if (club.ListOfMembers.Count > 0)
+                        {
+                            foreach (Member member in club.ListOfMembers)
+                            {
+                                if (member.ID == parsedNum)
+                                {
+                                    foundResults.Add(member);
+                                    run1stBehaviour = false;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nThe number you entered did not return a Member.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"\nClub: {club.Name} returned no results\n");
+                        }
+                    }
+                }
+                else if (typeOfSearchSelection == 0)
+                {
+                    run1stBehaviour = false;
+                }
+                else
+                {
+                    Console.WriteLine("\nThe input you entered is not a valid menu selection please try again!");
+                }
             }
 
             if (foundResults.Count > 0)
             {
+                foreach (Member member in foundResults)
+                {
+                    Console.Clear();
+                    resultsfoundCount++;
+                    Console.WriteLine($"{resultsfoundCount}:{member.Name} : {member.ID} : {GlobalFindClubOfMember(member.ID).Name}");
+                }
+
                 while (isSelectingResult)
                 {
 
-                    Console.WriteLine("Please selet A Result");
+                    Console.WriteLine("\n\tPlease select a result: ");
 
-                    string input = ReadAndReturnInput();
+                    string input2 = ReadAndReturnInput();
                     int selectionnNum = 0;
-                    bool isANum = int.TryParse(input, out selectionnNum);
+                    bool isANum = int.TryParse(input2, out selectionnNum);
                     int index = 0;
 
                     if (selectionnNum <= foundResults.Count)
@@ -159,21 +238,18 @@ namespace FitnessGCProjectMid
                             if (selectionnNum == index)
                             {
                                 isSelectingResult = false;
-                               member.Display;
+                                member.DisplayDetails();
+                                Console.ReadLine();
                             }
                         }
                     }
 
                 }
             }
-            else
+            else if (foundResults.Count == 0)
             {
-                Console.WriteLine("No results found");
+                Console.WriteLine("\nNo results found");
             }
-
-            
-
-
         }
 
         public Club GlobalFindClubOfMember(int memberID)
@@ -195,11 +271,30 @@ namespace FitnessGCProjectMid
 
 
         // This method takes in a list composed of Club objects and displays their name, address, and numbers them
-        public void DisplayClubs(List<Club> clubList)
+        public void DisplayAllClubs()
         {
-            for (int i = 0; i < clubList.Count; i++)
+            int i = 0;
+            foreach (Club club in ClubList)
             {
-                Console.WriteLine($"{i + 1}. {clubList[i].Name}, {clubList[i].Address}");
+                i++;
+                Console.WriteLine($"{i}. {club.Name} {club.Address}");
+
+            }
+
+
+        }
+
+        public void DisplayAllClubsAllMembers()
+        {
+            foreach (Club club in ClubList)
+            {
+                Console.WriteLine($"\tClub Name: {club.Name}\n");
+                Console.WriteLine($"\t\tMembers include:\n\t\t----------------------");
+
+                foreach (Member member in club.ListOfMembers)
+                {
+                    Console.WriteLine($"\t\t\t{member.Name}");
+                }
             }
         }
 
@@ -233,34 +328,34 @@ namespace FitnessGCProjectMid
             writer.Close();
         }
 
-        public void DisplayAllCLubs()
+        public void RetrieveCreateDisplayClubsFromFile()
         {
-            int i = 0;
+            int count = 0;
 
-            List<string> list = new List<string>();
+            List<string> clubNameList = new List<string>();
 
             using (StreamReader reader = new StreamReader("../../../Clubs.txt"))
             {
-                string line;
+                string textDocLine;
 
-                while ((line = reader.ReadLine()) != null)
+                while ((textDocLine = reader.ReadLine()) != null)
                 {
-                    i++;
-                    list.Add(line); // Add to list.
-                    Console.WriteLine($"{i}. {line}"); // Write to console.                    
+                    count++;
+                    clubNameList.Add(textDocLine); // Add to list.
+                    Console.WriteLine($"{count}. {textDocLine}"); // Write to console.                    
                 }
-                 
-                line = reader.ReadLine();             
+
+                textDocLine = reader.ReadLine();
+
+                foreach (String clubName in clubNameList)
+                {
+                    ListOfClubs.Instance.AddClubToList(new Club(clubName));
+                }
             }
         }
         public static string ReadAndReturnInput()
         {
             return Console.ReadLine();
         }
-
-        //public void RetrievingTextDatabase()
-        //{
-        
-        //}
     }
 }

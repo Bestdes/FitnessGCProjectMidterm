@@ -11,12 +11,12 @@ namespace FitnessGCProjectMid
     {
         static void Main(string[] args)
         {
-            /*ListOfClubs listOfClubs = ListOfClubs.Instance;
+            ListOfClubs listOfClubs = ListOfClubs.Instance;
 
             Club testingClub = new Club("Testing Club", "First Address");
             Member testingMember = new SingleClubMember(123, "Jon Doe", testingClub);
 
-            testingClub.AddMemberToClub(testingMember);*/
+            testingClub.AddMemberToClub(testingMember);
 
 
             //------------------------------------------------------------------------------------------------
@@ -25,11 +25,8 @@ namespace FitnessGCProjectMid
             bool runProgram = true;
             bool activeEmployeeSession = false;
 
-
             while (runProgram)
             {
-
-
                 ClubController activeEmployee = new ClubController();
                 GreetingsPrompt(activeEmployee);
 
@@ -37,43 +34,69 @@ namespace FitnessGCProjectMid
 
                 while (activeEmployeeSession)
                 {
-
-                    Console.WriteLine("This is the Main Menu of the Grand Circus Fitness Club Manager\nPlease input a menu option for services\n");
-
-                    DirectionsPrompt(activeEmployee);
-
-                    string input = Console.ReadLine().Trim();
-                    int num = 0;
-                    bool isANum = int.TryParse(input, out num);
-
-                    switch (num)
+                    bool gettingMenuOption = true;
+                    while (gettingMenuOption)
                     {
-                        case 1:
-                            //Option to check a member into a club
-                            activeEmployee.ActiveClub.MemberCheckIn(activeEmployee.ActiveClub);
-                            ListOfClubs.Instance.PrintAllClubsAndMembers();
-                            Console.Clear();
-                            break;
+                        Console.WriteLine("This is the Main Menu of the Grand Circus Fitness Club Manager\nPlease input a menu option for services\n");
 
-                        case 2:
-                            //Option to add a member to a club
-                            ModifyMemberStatus(activeEmployee);
-                            ListOfClubs.Instance.PrintAllClubsAndMembers();
-                            break;
+                        DirectionsPrompt(activeEmployee);
 
-                        case 3:
-                            //option to remove a member from a club
-                            SearchDataBase(activeEmployee);
-                            break;
-                        case 4:
-                            activeEmployeeSession = LoginAnotherUser();
-                            break;
+                        string input = Console.ReadLine().Trim();
+                        int num = 0;
+                        bool isANum = int.TryParse(input, out num);
 
-                        case 5:
-                            //option to exit the program
-                            Console.WriteLine("Logging you out and closing the program...");
-                            Environment.Exit(0);
-                            break;
+                        if (isANum)
+                        {
+                            if (num > 0 && num < 5)
+                            {
+                                switch (num)
+                                {
+                                    case 1:
+                                        //Option to check a member into a club
+                                        activeEmployee.ActiveClub.MemberCheckIn(activeEmployee.ActiveClub);
+                                        ListOfClubs.Instance.PrintAllClubsAndMembers();
+                                        Console.Clear();
+                                        break;
+
+                                    case 2:
+                                        //Option to add a member to a club
+                                        ModifyMemberStatus(activeEmployee);
+                                        ListOfClubs.Instance.PrintAllClubsAndMembers();
+                                        break;
+
+                                    case 3:
+                                        //option to remove a member from a club
+                                        SearchDataBase(activeEmployee);
+                                        break;
+                                    case 4:
+                                        activeEmployeeSession = LoginAnotherUser();
+                                        break;
+
+                                    case 5:
+                                        //option to exit the program
+                                        Console.WriteLine("Logging you out and closing the program...");
+                                        Environment.Exit(0);
+                                        break;
+                                }
+                            }
+                            else if (num > 5)
+                            {
+                                Console.WriteLine("I'm sorry, that number is too high and I didn't recognize it. Please try again.");
+                                gettingMenuOption = true;
+                            }
+                            else if (num <= 0)
+                            {
+                                Console.WriteLine("I'm sorry, that number is too low and I didn't recognize it. Please try again.");
+                                Console.WriteLine("");
+                                gettingMenuOption = true;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("I'm sorry, I didn't recognize a number. Please try again.");
+                            Console.WriteLine("");
+                            gettingMenuOption = true;
+                        }
                     }
                 }
             }
@@ -129,7 +152,7 @@ namespace FitnessGCProjectMid
 
             while (runModifyStatus)
             {
-                Console.WriteLine($"What would action would you like to initiate?\n\n" +
+                Console.WriteLine($"What would action would you like to initiate? Please enter the number associated with your choice.\n\n" +
                     $"\tPress 1: To Add New Member To: {clubController.ActiveClub.Name}\n" +
                     $"\tPress 2: To Remove Member From: {clubController.ActiveClub.Name}\n" +
                     $"\tPress 3: To Add New Member To: Other Club\n" +
@@ -268,10 +291,11 @@ namespace FitnessGCProjectMid
                             Console.Clear();
                             break;
                     }
-                }
+                }                
                 else
                 {
-                    Console.WriteLine("The input you entered is not a valid number!\nPlease try again.");
+                    Console.WriteLine("I'm sorry, I didn't recognize that response. Please try again.");
+                    runSearchDatabase = true;
                 }
             }
         }
@@ -279,6 +303,7 @@ namespace FitnessGCProjectMid
         {
             var club = new Club();
             bool cancellingMems = true;
+
             while(cancellingMems)
             {
                 Console.WriteLine("");
@@ -294,39 +319,51 @@ namespace FitnessGCProjectMid
                     int num = 0;
                     bool isANum = int.TryParse(input, out num);
 
-                    if (member1.ID == num)
+                    if(isANum)
                     {
-                        Console.WriteLine("");
-                        club.RemoveMemberFromClub(member1, num);
-                        Console.WriteLine($"This membership has been located and cancelled successfully, and you'll be returned to the Modify Member Status Menu.");
-                        Console.WriteLine("");
-                        cancellingMems = false;
-                    }
-                    else if(member2.ID == num)
-                    {
-                        Console.WriteLine("");
-                        club.RemoveMemberFromClub(member2, num);
-                        Console.WriteLine($"This membership has been located and cancelled successfully, and you'll be returned to the Modify Member Status Menu.");
-                        Console.WriteLine("");
-                        cancellingMems = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine("I'm sorry, I could not locate a member with that ID number. Would you like to try entering the member ID again? (Y/N)");
-                        string goAgainChoice = Console.ReadLine().Trim().ToLower();
-                        if (goAgainChoice == "y" || goAgainChoice == "yes")
+
+                        if(num == member1.ID || num == member2.ID)
                         {
-                            cancellingMems = true;
-                        }
-                        else if (goAgainChoice == "n" || goAgainChoice == "no")
-                        {
-                            cancellingMems = false;
+                            if (member1.ID == num)
+                            {
+                                Console.WriteLine("");
+                                club.RemoveMemberFromClub(member1, num);
+                                Console.WriteLine($"This membership has been located and cancelled successfully, and you'll be returned to the Modify Member Status Menu.");
+                                Console.WriteLine("");
+                                cancellingMems = false;
+                            }
+                            else if (member2.ID == num)
+                            {
+                                Console.WriteLine("");
+                                club.RemoveMemberFromClub(member2, num);
+                                Console.WriteLine($"This membership has been located and cancelled successfully, and you'll be returned to the Modify Member Status Menu.");
+                                Console.WriteLine("");
+                                cancellingMems = false;
+                            }
                         }
                         else
                         {
-                            Console.WriteLine("I'm sorry, I can only accept yes or no responses. Please try again.");
-                            cancellingMems = true;
+                            Console.WriteLine("I'm sorry, I could not locate a member with that ID number. Would you like to try cancelling this membership again? (Y/N)");
+                            string goAgainChoice = Console.ReadLine().Trim().ToLower();
+                            if (goAgainChoice == "y" || goAgainChoice == "yes")
+                            {
+                                cancellingMems = true;
+                            }
+                            else if (goAgainChoice == "n" || goAgainChoice == "no")
+                            {
+                                cancellingMems = false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("I'm sorry, I can only accept yes or no responses. Please try again.");
+                                cancellingMems = true;
+                            }
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("I'm sorry, I did not recognize a number there. Please try again.");
+                        cancellingMems = true;
                     }
                 }
                 else if (decision == "name")
@@ -354,7 +391,7 @@ namespace FitnessGCProjectMid
                     }
                     else
                     {
-                        Console.WriteLine("I'm sorry, I could not locate a member by that name. Perhaps we experienced a typo. Would you like to try entering the member's name again? (Y/N)");
+                        Console.WriteLine("I'm sorry, I could not locate a member by that name. Perhaps we experienced a typo. Would you like to try cancelling this membership again? (Y/N)");
                         string goAgainChoice = Console.ReadLine().Trim().ToLower();
                         if (goAgainChoice == "y" || goAgainChoice == "yes")
                         {

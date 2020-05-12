@@ -57,9 +57,11 @@ namespace FitnessGCProjectMid
             }
         }
 
-        public override bool CheckIfIsAMemberOfActiveLocation()
+        public override void DisplayDetails()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"[ID: {ID}] Name: {Name} - (First: {FirstName}, Last: {LastName}");
+            Console.WriteLine($"{Name} has access to the following list of Clubs:");
+            Console.WriteLine("\n\t" + ClubAssign.Name);
         }
     }
 }

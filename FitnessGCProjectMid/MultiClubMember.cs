@@ -52,9 +52,14 @@ namespace FitnessGCProjectMid
             Console.WriteLine("Success");
         }
 
-        public override bool CheckIfIsAMemberOfActiveLocation()
+        public override void DisplayDetails()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"[ID: {ID}] Name: {Name} - (First: {FirstName}, Last: {LastName} - Membership Points: {MemPts})");
+            Console.WriteLine($"{Name} has access to the following list of Clubs");
+            foreach (Club club in ClubsAssignedTo)
+            {
+                Console.WriteLine(club.Name);
+            }
         }
     }
 }

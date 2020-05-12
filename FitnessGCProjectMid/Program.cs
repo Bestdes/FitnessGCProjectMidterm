@@ -11,17 +11,13 @@ namespace FitnessGCProjectMid
     {
         static void Main(string[] args)
         {
-            ListOfClubs listOfClubs = ListOfClubs.Instance;
+            /*ListOfClubs listOfClubs = ListOfClubs.Instance;
 
             Club testingClub = new Club("Testing Club", "First Address");
             Member testingMember = new SingleClubMember(123, "Jon Doe", testingClub);
 
-            testingClub.AddMemberToClub(testingMember);
+            testingClub.AddMemberToClub(testingMember);*/
 
-            listOfClubs.AddClubToList(testingClub);
-
-
-            listOfClubs.PrintAllClubsAndMembers();
 
             //------------------------------------------------------------------------------------------------
             //Beginning of Program Logic
@@ -55,19 +51,20 @@ namespace FitnessGCProjectMid
                         case 1:
                             //Option to check a member into a club
                             activeEmployee.ActiveClub.MemberCheckIn(activeEmployee.ActiveClub);
-                            listOfClubs.PrintAllClubsAndMembers();
+                            ListOfClubs.Instance.PrintAllClubsAndMembers();
                             Console.Clear();
                             break;
 
                         case 2:
                             //Option to add a member to a club
                             ModifyMemberStatus(activeEmployee);
+                            ListOfClubs.Instance.PrintAllClubsAndMembers();
                             break;
 
-                        /*case 3:
+                        case 3:
                             //option to remove a member from a club
-                            CancelMembership();
-                            break;*/
+                            SearchDataBase(activeEmployee);
+                            break;
                         case 4:
                             break;
 
@@ -83,16 +80,33 @@ namespace FitnessGCProjectMid
 
         public static void GreetingsPrompt(ClubController employee)
         {
+            int i = 0;
+
             Console.WriteLine($"Hello, employee please input your name: ");
             string input = ReadAndReturnInput();
             employee.EmployeeName = input;
-            Console.Clear();
-            Console.WriteLine($"{employee.EmployeeName}, What Club Database do you want to enter?");
+            Console.Clear();     
+            
+            Console.WriteLine($"{employee.EmployeeName}, What Club Database do you want to enter?\nSelect by number please:\n");
+            /*Console.WriteLine();*/
+
+            ListOfClubs.Instance.RetrieveCreateDisplayClubsFromFile();
+
             Console.WriteLine();
-            ListOfClubs.Instance.DisplayAllCLubs();
-            Console.WriteLine();
+
             string clubInput = ReadAndReturnInput();
             employee.ActiveClub = ListOfClubs.Instance.GlobalFindClubByName(clubInput);
+
+            int numInput = int.Parse(clubInput);
+            foreach (Club testingClub in ListOfClubs.Instance.ClubList)
+            {
+                i++;
+                if (numInput == i)
+                {
+                    employee.ActiveClub = testingClub;
+                    Console.WriteLine(employee.ActiveClub.Name);
+                }
+            }
             Console.Clear();
         }
 
@@ -110,6 +124,8 @@ namespace FitnessGCProjectMid
             Console.Clear();
 
             bool runModifyStatus = true;
+            bool runMStatus1 = true;
+
             while (runModifyStatus)
             {
                 Console.WriteLine($"What would action would you like to initiate?\n\n" +
@@ -122,6 +138,7 @@ namespace FitnessGCProjectMid
                 string input = ReadAndReturnInput();
                 int confirmedNum;
                 bool isANum = int.TryParse(input, out confirmedNum);
+                
 
                 if (isANum)
                 {
@@ -129,18 +146,28 @@ namespace FitnessGCProjectMid
                     switch (confirmedNum)
                     {
                         case 1:
-                            Console.WriteLine("Will the member use more than one Fitness Club?  (y/n)");
-                            string multiSingleInput = ReadAndReturnInput().Trim();
-                            if (multiSingleInput == "n")
+                            while (runMStatus1)
                             {
-                                Member singleNewMem = new SingleClubMember();
-                                clubController.ActiveClub.AddMemberToClub();
+                                Console.WriteLine("Will the member use more than one Fitness Club?  (y/n)");
+                                string multiSingleInput = ReadAndReturnInput().Trim();
+                                if (multiSingleInput == "n")
+                                {
+                                    Member singleNewMem = new SingleClubMember();
+                                    clubController.ActiveClub.AddMemberToClub();
+                                    runModifyStatus = false;
+                                }
+                                else if (multiSingleInput == "y")
+                                {
+                                    Member multiNewMem = new MultiClubMember(); // The logic to decide what type of Member probably has to go inside the AddMemberToClub Method
+                                    clubController.ActiveClub.AddMemberToClub();
+                                    runModifyStatus = false;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid response entered. Please input y for yes and n for no.");
+                                }
                             }
-                            else if (multiSingleInput == "n")
-                            {
-                                Member singleNewMem = new MultiClubMember(); // The logic to decide what type of Member probably has to go inside the AddMemberToClub Method
-                                clubController.ActiveClub.AddMemberToClub();
-                            }
+                            runModifyStatus = true;
                             break;
                         case 2:
                             CancelMembership();
@@ -158,7 +185,6 @@ namespace FitnessGCProjectMid
                             }
                             break;
                         case 4:
-                            //ListOfClubs.Instance.GlobalFindClubByName("").RemoveMemberFromClub();
                             CancelMembership();
                             break;
                         case 5:
@@ -173,6 +199,61 @@ namespace FitnessGCProjectMid
                     Console.WriteLine("The input you entered is not a valid number!\nPlease try again.");
                 }
 
+            }
+        }
+        public static void SearchDataBase(ClubController clubController)
+        {
+            Console.Clear();
+
+            bool runSearchDatabase = true;
+
+            while (runSearchDatabase)
+            {
+                Console.Clear();
+
+                Console.WriteLine($"What action would you like to initiate?\n\n" +
+                        $"\tPress 1: To Search for A Specific Member In The National Database\n" +
+                        $"\tPress 2: To Display All Members in {clubController.ActiveClub.Name}\n" +
+                        $"\tPress 3: To Display All Clubs\n" +
+                        $"\tPress 4: To Display All Members of A Specific Club\n" +
+                        $"\tPress 5: To Display All Members of All Clubs\n" +
+                        $"\tPress 6: To Return to the Main Menu");
+
+                string input = ReadAndReturnInput();
+                int confirmedNum;
+                bool isANum = int.TryParse(input, out confirmedNum);
+
+                switch (confirmedNum)
+                {
+                    case 1:
+                        Console.Clear();
+                        ListOfClubs.Instance.GlobalFindMember();
+                        Console.ReadLine();
+                        break;
+                    case 2:
+                        //Display all members in Active Club
+                        Console.Clear();
+                        clubController.ActiveClub.DisplayAllMembers();
+                        Console.ReadLine();
+                        break;
+                    case 3:
+                        Console.Clear();
+                        ListOfClubs.Instance.DisplayAllClubs();
+                        Console.ReadLine();
+                        break;
+                    case 4:
+                        Console.Clear();
+                        break;
+                    case 5:
+                        Console.Clear();
+                        ListOfClubs.Instance.DisplayAllClubsAllMembers();
+                        Console.ReadLine();
+                        break;
+                    case 6:
+                        runSearchDatabase = false;
+                        Console.Clear();
+                        break;
+                }
             }
         }
         public static void CancelMembership()

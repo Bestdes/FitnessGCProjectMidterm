@@ -91,11 +91,11 @@ namespace FitnessGCProjectMid
             else
             {
                 userChoice = int.Parse(input);
-                Console.WriteLine("What is the member's first name?\n");
+                Console.WriteLine("\nWhat is the member's first name?");
                 string newName = Console.ReadLine().Trim();
-                Console.WriteLine("What is the member's last name?\n");
+                Console.WriteLine("\nWhat is the member's last name?");
                 string newLastName = Console.ReadLine().Trim();
-                Console.WriteLine("What is the member ID?\n");
+                Console.WriteLine("\nWhat is the member ID?\n");
                 int newId = int.Parse(Console.ReadLine().Trim());
                 foreach (Club c in ListOfClubs.Instance.ClubList) //adding a single club member 
                 {

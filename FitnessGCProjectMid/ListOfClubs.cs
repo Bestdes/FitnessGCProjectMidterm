@@ -79,19 +79,24 @@ namespace FitnessGCProjectMid
 
         public Club GlobalFindClubByName(string clubName) //Will return Club
         {
+            bool isCorrectClubFound = false;
+
             Club foundClub = new Club();
             foreach (Club club in ClubList)
             {
                 if (clubName == club.Name)
                 {
                     foundClub = club;
+                    isCorrectClubFound = true;
                     return foundClub;
                 }
-                else
-                {
-                    Console.WriteLine("The club you searched for does not exist");
-                }
             }
+
+            if(isCorrectClubFound == false)
+            {
+                Console.WriteLine("The search returned no results matching the input");
+            }
+
             return foundClub;
         }
         public void GlobalFindMemberFromClub()
@@ -202,12 +207,7 @@ namespace FitnessGCProjectMid
                         {
                             foreach (Member member in club.ListOfMembers)
                             {
-                                if (member.Name.ToLower().Trim() == searchedForMember)
-                                {
-                                    foundResults.Add(member);
-                                    run1stBehaviour = false;
-                                }
-                                else if (member.Name == searchedForMember)
+                                if (member.Name.ToLower() == searchedForMember.ToLower())
                                 {
                                     foundResults.Add(member);
                                     run1stBehaviour = false;
@@ -231,6 +231,8 @@ namespace FitnessGCProjectMid
                     int parsedNum = 0;
                     bool isANum = int.TryParse(searchedForMember, out parsedNum);
 
+                    bool isMemberFound = false;
+
                     foreach (Club club in ClubList)
                     {
                         if (club.ListOfMembers.Count > 0)
@@ -241,11 +243,13 @@ namespace FitnessGCProjectMid
                                 {
                                     foundResults.Add(member);
                                     run1stBehaviour = false;
+                                    isMemberFound = true;
                                 }
-                                else
-                                {
-                                    Console.WriteLine("\nThe number you entered did not return a Member.");
-                                }
+                            }
+
+                            if(isMemberFound == false)
+                            {
+                                Console.WriteLine("\nThe ID you entered did not return a Member.");
                             }
                         }
                         else
@@ -267,9 +271,9 @@ namespace FitnessGCProjectMid
 
             if (foundResults.Count > 0)
             {
+                Console.Clear();
                 foreach (Member member in foundResults)
                 {
-                    Console.Clear();
                     resultsfoundCount++;
                     Console.WriteLine($"{resultsfoundCount}:{member.Name} : {member.ID} : {GlobalFindClubOfMember(member.ID).Name}");
                 }
@@ -367,13 +371,26 @@ namespace FitnessGCProjectMid
             StreamWriter writer = new StreamWriter("../../../Members.txt");
             foreach (Club club in ClubList)
             {
+                writer.WriteLine("------------------------------");
                 writer.WriteLine($"Club Name: {club.Name}");
-                writer.WriteLine($"Members include:");
 
-                foreach (Member member in club.ListOfMembers)
+                foreach(SingleClubMember singleCMember in club.ListOfMembers)
                 {
-                    writer.WriteLine($"{member.Name}");
+                    writer.WriteLine($"Member: {singleCMember.Name}@{singleCMember.ClubAssign.Name}#{singleCMember.ID}");
                 }
+     
+            }
+            writer.Close();
+        }
+
+        public void PrintCheckedInMembers()
+        {
+            StreamWriter writer = new StreamWriter("../../../Clubs.txt");
+
+            writer.WriteLine($"Clubs Include:");
+            foreach (Club club in ClubList)
+            {
+                writer.WriteLine($"{club.Name}");
             }
             writer.Close();
         }
@@ -410,6 +427,50 @@ namespace FitnessGCProjectMid
                 }
             }
         }
+
+        public void CreateMembersFromFile()
+        {
+            
+            string[] allFileLines = File.ReadAllLines("../../../Members.txt");
+            string clubName = null;
+            Club targetClub = GlobalFindClubByName(clubName);
+
+            string numSign = "#";
+
+            foreach (string fileLine in allFileLines)
+            {
+                if (fileLine != null)
+                {
+                    if (fileLine.StartsWith("Club Name:"))
+                    {
+                        clubName = fileLine.Remove(0, 11);
+                        targetClub = GlobalFindClubByName(clubName);
+                    }
+
+                    if (fileLine.StartsWith("Member:"))
+                    {
+                        string memberName = fileLine.Substring(8);
+                        string memberClubAssign = fileLine.Substring(fileLine.IndexOf('@') + 1);
+                        if (fileLine.Contains('#'))
+                        {
+                            memberName = memberName.Remove(memberName.IndexOf('#'));
+                            memberClubAssign = memberClubAssign.Remove(memberClubAssign.IndexOf('#'));
+                        }
+                        if (fileLine.Contains('@'))
+                        {
+                            memberName = memberName.Remove(memberName.IndexOf('@'));
+                        }
+
+                        int memberId;
+                        bool isNum = int.TryParse(fileLine.Substring(fileLine.IndexOf('#') + 1), out memberId);
+
+                        Member writingMember = new SingleClubMember(memberId, memberName, GlobalFindClubByName(memberClubAssign));
+                        targetClub.AddMemberToClub(writingMember);
+                    }
+                }
+            }
+        }
+
         public static string ReadAndReturnInput()
         {
             return Console.ReadLine();

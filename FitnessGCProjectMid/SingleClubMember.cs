@@ -28,6 +28,7 @@ namespace FitnessGCProjectMid
 
         }
 
+
         public SingleClubMember()
         {
 
@@ -43,7 +44,14 @@ namespace FitnessGCProjectMid
                 try
                 {
                     /*club = ClubAssign;*/
+                    string[] allFileLines = File.ReadAllLines("../../../CheckedInMembers.txt");
+
                     StreamWriter writer = new StreamWriter("../../../CheckedInMembers.txt");
+
+                    foreach(string line in allFileLines)
+                    {
+                        writer.WriteLine(line);
+                    }
                     writer.WriteLine($"{club.Name}: {Name} + {ID}");
                     writer.Close();
                     Console.WriteLine("Success");

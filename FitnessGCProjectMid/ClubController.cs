@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace FitnessGCProjectMid
@@ -23,6 +24,13 @@ namespace FitnessGCProjectMid
         public void ChangeActiveCub()
         {
 
+        }
+
+        public void ClearCheckInMembers()
+        {
+            StreamWriter writer = new StreamWriter("../../../CheckedInMembers.txt");
+            writer.WriteLine($"");
+            writer.Close();
         }
     }
 }

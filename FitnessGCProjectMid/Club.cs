@@ -281,6 +281,7 @@ namespace FitnessGCProjectMid
             }
         }
 
+
         // This method is a simple AddMemberToClub primarily used for testing purposes.
         public void AddMemberToClub(Member newMember)
         {

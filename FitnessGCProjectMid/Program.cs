@@ -28,6 +28,7 @@ namespace FitnessGCProjectMid
             while (runProgram)
             {
                 ClubController activeEmployee = new ClubController();
+                activeEmployee.ClearCheckInMembers();
                 GreetingsPrompt(activeEmployee);
 
                 activeEmployeeSession = true;
@@ -70,6 +71,8 @@ namespace FitnessGCProjectMid
                                         break;
                                     case 4:
                                         activeEmployeeSession = LoginAnotherUser();
+                                        gettingMenuOption = false;
+                                        Console.Clear();
                                         break;
 
                                     case 5:
@@ -117,16 +120,16 @@ namespace FitnessGCProjectMid
                 ListOfClubs.Instance.RetrieveCreateDisplayClubsFromFile();
                 Console.WriteLine();
                 string clubInput = ReadAndReturnInput();
-                int num1 = 0;
-                bool clubInput2 = int.TryParse(clubInput, out num1);
-                if (clubInput2)
+                int clubNumSelection = 0;
+                bool IsClubNumInput = int.TryParse(clubInput, out clubNumSelection);
+                if (IsClubNumInput)
                 {
-                    if (num1 <= ListOfClubs.Instance.ClubList.Count() || num1 >= 1)
+                    if (clubNumSelection <= ListOfClubs.Instance.ClubList.Count() || clubNumSelection >= 1)
                     {
                         foreach (Club testingClub in ListOfClubs.Instance.ClubList)
                         {
                             i++;
-                            if (num1 == i)
+                            if (clubNumSelection == i)
                             {
                                 employee.ActiveClub = testingClub;
                                 Console.WriteLine(employee.ActiveClub.Name);
@@ -142,6 +145,7 @@ namespace FitnessGCProjectMid
                     Console.Clear();
                 }
             }
+            ListOfClubs.Instance.CreateMembersFromFile();
         }
 
         public static void DirectionsPrompt(ClubController clubController)

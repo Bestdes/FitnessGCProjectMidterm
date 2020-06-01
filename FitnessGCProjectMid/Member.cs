@@ -30,6 +30,11 @@ namespace FitnessGCProjectMid
             Name = name;
         }
 
+        protected Member(string name)
+        {
+            Name = name;
+        }
+
         public Member()
         {
 

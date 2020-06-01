@@ -1,13 +1,42 @@
+------------------------------
 Club Name: YMCA
-Members include:
-
-Club Name: MVP 
-Members include:
+Member: Tren Gleason@YMCA#12
+Member: Mara Yates@YMCA#123
+Member: Alberta Estrad@YMCA#1234
+Member: Lane Mcneil@YMCA#321
+Member: Jenifer Stevens@YMCA#21
+------------------------------
+Club Name: MVC Club
+Member: Darla Cole@MVC Club#98
+Member: Faith Hess@MVC Club#83
+Member: Perry Duffy@MVC Club#99
+Member: Gavin Drake@MVC Club#77
+Member: Milo Hickman@MVC Club#31
+------------------------------
 Club Name: Aquatic Center
-Members include:
-Club Name: Planet Fitness
-Members include:
-Club Name: 1600 Club ya digggggggggggggg XD
-Members include:
-Club Name: Testing Club
-Members include:
+Member: Clay Oneal@Aquatic Center#43
+Member: Albert Graves@Aquatic Center#29
+Member: Johanna Beltran@Aquatic Center#53
+Member: Nannie Huerta@Aquatic Center#17
+Member: Daisy Moses@Aquatic Center#93
+------------------------------
+Club Name: Grand Fitness
+Member: Terri Kelley@Grand Fitness#94
+Member: Jaime Buckley@Grand Fitness#23
+Member: Mae Nichols@Grand Fitness#72
+Member: Tyron Rios@Grand Fitness#13
+Member: Korey Dickson@Grand Fitness#79
+------------------------------
+Club Name: Jakes 1600 Club
+Member: Robby Pena@Jakes 1600 Club#69
+Member: Amparo Sheppard@Jakes 1600 Club#78
+Member: Rosella Nixon@Jakes 1600 Club#86
+Member: Tanner Mccoy@Jakes 1600 Club#91
+Member: Alta Camacho@Jakes 1600 Club#87
+------------------------------
+Club Name: Testly Club
+Member: Brenton Potter@Testly Club#88
+Member: Belinda Hayden@Testly Club#50
+Member: Sophie Oneill@Testly Club#54
+Member: Tom Case@Testly Club#2
+Member: Avis Reyes@Testly Club#81
